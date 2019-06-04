@@ -3,13 +3,13 @@
 <body>
 <%- include('inc/nav.ejs') %>
 
-
+<% if (products.length) { %>	
 <div class="grid">
-	
-	<!--
+
+	<% products.forEach( (product) =>  { %>
 	<article class="card product-item">
     	<header class="card_header">
-    		<h1 class="product_title"> Hello </h1>
+    		<h1 class="product_title"> <%= product.name %> </h1>
     	</header>
     	<div class="card_image">
     		<img src="/img/placeholder.jpg" alt="A Book">
@@ -22,9 +22,12 @@
     		<button class="btn">Add to Cart</button>
     	</div>
 	</article>
-	-->
-
+	<% }) %>
 </div>
+<% } else { %>
+	<h2> No Products </h2>
+<% } %>
+
 
 
 

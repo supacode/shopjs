@@ -9,12 +9,12 @@ app.use(bodyParser.urlencoded({extended: false }));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-const pageRoutes = require('./routes/pages');
-const adminRoutes = require('./routes/admin');
-const errorRoutes = require('./controllers/errorController');
+const pageRoutes = require('./routes/admin');
+const productRoutes = require('./routes/shop');
+const errorRoutes = require('./controllers/error');
 
 app.use(pageRoutes);
-app.use(adminRoutes);
+app.use(productRoutes);
 app.use(errorRoutes.get404);
 
 
