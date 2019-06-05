@@ -20,6 +20,7 @@ const getProductsFromFile = cb => {
 
 module.exports = class Product {
     constructor(name,price,description,imageUrl) {
+        this.id = (new Date).getTime().toString();
         this.name = name;
         this.price = price;
         this.description = description;

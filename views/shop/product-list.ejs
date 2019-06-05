@@ -11,8 +11,7 @@
     		<h1 class="product_title"> <%= product.name %> </h1>
     	</header>
     	<div class="card_image">
-			<!-- Link to product Detail -->
-			<a href="/">
+			<a href="/products/<%= product.id %>">
 				<img src="/img/<%= product.imageUrl %>" alt="<%= product.name %>">
 			</a>
     	</div>
@@ -21,8 +20,7 @@
     		<p class="product_description"><%= product.description %></p>
     	</div>
     	<div class="card_actions">
-			<!-- Link to Product Detail -->
-			<a href="/" class="btn">Details</a>
+			<a href="/products/<%= product.id %>" class="btn">Details</a>
 			<form action="/add-to-cart">
 				<button type="submit" class="btn">Add to Cart</button>
 			</form>
