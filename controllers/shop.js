@@ -27,6 +27,12 @@ exports.getCart  = (req,res,next) => {
         activeLink: '/cart'
     })
 }
+exports.getOrders  = (req,res,next) => {
+    res.render('shop/orders', {
+        pageTitle: 'Orders',
+        activeLink: '/orders'
+    })
+}
 
 exports.getCheckout  = (req,res,next) => {
     res.render('shop/checkout', {
