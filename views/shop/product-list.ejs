@@ -1,5 +1,4 @@
 <%- include('../inc/head.ejs') %>
-<link rel="stylesheet" href="/css/product.css">
 </head>
 <body>
 <%- include('../inc/nav.ejs') %>
@@ -12,13 +11,18 @@
     		<h1 class="product_title"> <%= product.name %> </h1>
     	</header>
     	<div class="card_image">
-    		<img src="/img/<%= product.imageUrl %>" alt="<%= product.name %>">
+			<!-- Link to product Detail -->
+			<a href="/">
+				<img src="/img/<%= product.imageUrl %>" alt="<%= product.name %>">
+			</a>
     	</div>
     	<div class="card_content">
     		<h2 class="product_price">$<%= product.price %></h2>
     		<p class="product_description"><%= product.description %></p>
     	</div>
     	<div class="card_actions">
+			<!-- Link to Product Detail -->
+			<a href="/" class="btn">Details</a>
 			<form action="/add-to-cart">
 				<button type="submit" class="btn">Add to Cart</button>
 			</form>
