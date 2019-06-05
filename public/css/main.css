@@ -152,3 +152,51 @@ body {
 .product__description {
     text-align: center;
 }
+
+/* Product Form */
+.product-form {
+  width: 25rem;
+  max-width: 90%;
+  margin: auto;
+}
+
+.product-form textarea {
+  width: 100%;
+}
+
+.product-form label {
+  line-height: 1.5;
+}
+
+.product-form > div {
+  margin-bottom: 10px;
+}
+
+.product-form input[type="text"],.product-form input[type="number"],.product-form textarea {
+  border: 1p solid #ccc;
+  padding: 7px 5px;
+  width: 100%;
+  display: block;
+}
+
+.product-item {
+  width: 20rem;
+  max-width: 95%;
+  margin-bottom: 2rem;
+}
+
+.product_title {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.product_price {
+  text-align: center;
+  color: #4d4d4d;
+  margin-bottom: 0.5rem;
+}
+
+.product_description {
+  text-align: center;
+  line-height: 2;
+}

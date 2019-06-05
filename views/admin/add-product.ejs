@@ -5,7 +5,30 @@
 <body>
 	<main>
 		<form action="/admin/add-product" method="post" class="product-form">
-			<div><input type="text" name="name"></div>
+			
+			<div class="form-control">
+				<label for="name"> Product name </label>
+				<input id="name" type="text" name="name">	
+			</div>
+
+			<div class="form-control">
+				<label for="imageUrl"> Image URL </label>
+				<input type="text" id="imageUrl" name="imageUrl">	
+			</div>
+
+			<div class="form-control">
+				<label for="price"> Price </label>
+				<input type="number" id="price" name="price">
+			</div>
+
+			<div class="form-control">
+				<label for="description"> Description </label>
+				<textarea rows="6" id="description" name="description"></textarea>
+			</div>
+	
+
+
+
 			<div><button class="btn" type="submit">Add Product</button></div>
 		</form>
 	</main>
