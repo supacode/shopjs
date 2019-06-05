@@ -6,7 +6,7 @@ exports.getProducts  = (req,res,next) => {
 		res.render('shop/product-list', {
 			products,
 			pageTitle: 'Home',
-			activeLink: '/'
+			activeLink: '/products'
 		}
 	));
 }

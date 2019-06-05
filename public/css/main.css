@@ -40,7 +40,7 @@ body {
 .main-header__nav li a {
   color: #fff;
   text-decoration: none;
-  transition: .4s ease-out all;
+  transition: .4s ease-out background;
 }
 
 .main-header__nav a:hover {
