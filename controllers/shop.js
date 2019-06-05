@@ -16,7 +16,7 @@ exports.getIndex  = (req,res,next) => {
 		res.render('shop/index', {
 			products,
 			pageTitle: 'Home',
-			activeLink: '/index'
+			activeLink: '/'
 		}
 	));
 }

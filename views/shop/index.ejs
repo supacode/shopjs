@@ -1,0 +1,32 @@
+<%- include('../inc/head.ejs') %>
+<link rel="stylesheet" href="/css/product.css">
+</head>
+<body>
+<%- include('../inc/nav.ejs') %>
+<% if (products.length) { %>	
+<div class="grid">
+
+	<% products.forEach( (product) =>  { %>
+	<article class="card product-item">
+    	<header class="card_header">
+    		<h1 class="product_title"> <%= product.name %> </h1>
+    	</header>
+    	<div class="card_image">
+    		<img src="/img/<%= product.imageUrl %>" alt="<%= product.name %>">
+    	</div>
+    	<div class="card_content">
+    		<h2 class="product_price">$<%= product.price %></h2>
+    		<p class="product_description"><%= product.description %></p>
+    	</div>
+    	<div class="card_actions">
+    		<button class="btn">Add to Cart</button>
+    	</div>
+	</article>
+	<% }) %>
+</div>
+<% } else { %>
+	<h2> No Products </h2>
+<% } %>
+
+
+<%- include('../inc/end.ejs') %>
