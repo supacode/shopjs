@@ -71,27 +71,27 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 
-.card__header,
-.card__content {
+.card_header,
+.card_content {
   padding: 1rem;
 }
 
-.card__header h1,
-.card__content h1,
-.card__content h2,
-.card__content p {
+.card_header h1,
+.card_content h1,
+.card_content h2,
+.card_content p {
   margin: 0;
 }
 
-.card__image {
+.card_image {
   width: 100%;
 }
 
-.card__image img {
+.card_image img {
   width: 100%;
 }
 
-.card__actions {
+.card_actions {
     padding: 1rem;
     text-align: center;
 }
