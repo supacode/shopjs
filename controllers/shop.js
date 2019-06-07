@@ -14,10 +14,16 @@ exports.getProducts  = (req,res,next) => {
 
 exports.getProduct = (req,res,next) => {
 	const id = req.params.id;
-	Product.findById(id, product => {
-		console.log(product);
-	})
-	res.redirect('/');
+	Product.findById( id, product => { 
+		res.render('shop/product-detail', {
+			product,
+			pageTitle: product.name,
+			activeLink: '/products'
+		}
+	);
+	
+	});
+
 }
 
 
@@ -37,6 +43,16 @@ exports.getCart  = (req,res,next) => {
         activeLink: '/cart'
     })
 }
+
+exports.postCart = (req,res,next) => {
+	
+	const product = req.body.product;
+	console.log(product);
+	res.redirect('/cart');
+
+}
+
+
 exports.getOrders  = (req,res,next) => {
     res.render('shop/orders', {
         pageTitle: 'Orders',
@@ -52,4 +68,3 @@ exports.getCheckout  = (req,res,next) => {
     })
 }
 	
-
