@@ -1,0 +1,30 @@
+<%- include('../inc/head.ejs') %>
+</head>
+<%- include('../inc/nav.ejs') %>
+<body>
+	<main>
+		<form action="/admin/edit-product" method="post" class="product-form">
+			<div class="form-control">
+				<label for="name"> Product name </label>
+				<input id="name" value="<%= product.name %>" type="text" name="name">	
+			</div>
+
+			<div class="form-control">
+				<label for="imageUrl"> Image URL </label>
+				<input type="text" id="imageUrl" value="<%= product.imageUrl %>" name="imageUrl">	
+			</div>
+
+			<div class="form-control">
+				<label for="price"> Price </label>
+				<input type="number" value="<%= product.price %>" id="price" step="0.01" name="price">
+			</div>
+
+			<div class="form-control">
+				<label for="description"> Description </label>
+				<textarea rows="6" id="description" name="description"><%= product.description %></textarea>
+			</div>
+
+			<div><button class="btn" type="submit">Edit Product</button></div>
+		</form>
+	</main>
+<%- include('../inc/end.ejs') %>

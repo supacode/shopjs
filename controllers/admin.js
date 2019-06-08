@@ -19,6 +19,21 @@ exports.postAddProduct = (req,res,next) => {
 }
 
 
+exports.getEditProduct = (req,res,next) => {
+
+	const productID = req.params.id;
+
+	Product.findById(productID,product => {
+		res.render('admin/edit-product', {
+			pageTitle: 'Edit Product',
+			activeLink: '/admin/edit-product',
+			product
+		});	
+	});
+
+}
+
+
 exports.getProducts  = (req,res,next) => {
 	Product.fetchAll( products => 
 		res.render('admin/products', {
