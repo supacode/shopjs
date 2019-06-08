@@ -6,7 +6,7 @@
 <div class="grid">
 
 	<% products.forEach( (product) =>  { %>
-	<article class="card product-item">
+	<article id="<%= product.id %>" class="card product-item">
     	<header class="card_header">
     		<h1 class="product_title"> <%= product.name %> </h1>
     	</header>

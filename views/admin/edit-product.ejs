@@ -24,7 +24,11 @@
 				<textarea rows="6" id="description" name="description"><%= product.description %></textarea>
 			</div>
 
-			<div><button class="btn" type="submit">Edit Product</button></div>
+			<div>
+				<input type="hidden" name="productId" value="<%= product.id %>">
+                <a href="/admin/products" class="btn">Back</a>
+                <button class="btn" type="submit">Update Product</button>
+            </div>
 		</form>
 	</main>
 <%- include('../inc/end.ejs') %>
