@@ -2,19 +2,10 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
+const db = require('./util/db');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false }));
-
-const db = require('./util/db');
-
-db.execute("SELECT * FROM `products`")
-    .then( result => {
-        console.log(result[0], result[1]);
-    } )
-    .catch( err => {
-        console.log(err);
-    });
 
 
 app.set('view engine', 'ejs');

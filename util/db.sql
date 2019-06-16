@@ -31,7 +31,7 @@ CREATE TABLE `products` (
   `name` varchar(255) NOT NULL,
   `price` double NOT NULL,
   `description` text NOT NULL,
-  `image_url` varchar(255) NOT NULL
+  `imageUrl` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

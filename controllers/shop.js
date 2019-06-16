@@ -1,53 +1,56 @@
-const Product = require('../models/product'); 
+const Product = require('../models/product');
 const Cart = require('../models/cart');
 
-exports.getProducts  = (req,res,next) => {
-	Product.fetchAll( products => 
-		res.render('shop/product-list', {
-			products,
-			pageTitle: 'Home',
-			activeLink: '/products'
-		}
-	));
+exports.getProducts = (req, res, next) => {
+	Product.fetchAll()
+		.then(([rows, field]) =>
+			res.render('shop/product-list', {
+				products: rows,
+				pageTitle: 'Home',
+				activeLink: '/products'
+			}))
+		.catch(err => console.log(err))
 }
 
 
-exports.getProduct = (req,res,next) => {
+exports.getProduct = (req, res, next) => {
 	const id = req.params.id;
-	Product.findById( id, product => { 
+	Product.findById(id, product => {
 		res.render('shop/product-detail', {
 			product,
 			pageTitle: product.name,
 			activeLink: '/products'
-		}
-	);
-	
+		});
+
 	});
 
 }
 
 
-exports.getIndex  = (req,res,next) => {
-	Product.fetchAll( products => 
-		res.render('shop/index', {
-			products,
-			pageTitle: 'Home',
-			activeLink: '/'
-		}
-	));
+exports.getIndex = (req, res, next) => {
+	Product.fetchAll()
+		.then(([rows, field]) => {
+			res.render('shop/index', {
+				products: rows,
+				pageTitle: 'Home',
+				activeLink: '/'
+			});
+		})
+		.catch(err => console.log(err));
+
 }
 
-exports.getCart  = (req,res,next) => {
-    res.render('shop/cart', {
-        pageTitle: 'Cart',
-        activeLink: '/cart'
-    })
+exports.getCart = (req, res, next) => {
+	res.render('shop/cart', {
+		pageTitle: 'Cart',
+		activeLink: '/cart'
+	})
 }
 
-exports.postCart = (req,res,next) => {
+exports.postCart = (req, res, next) => {
 	const productId = req.body.product;
 
-	Product.findById( productId, product => {
+	Product.findById(productId, product => {
 		Cart.addProduct(productId, product.price);
 	});
 
@@ -56,18 +59,17 @@ exports.postCart = (req,res,next) => {
 }
 
 
-exports.getOrders  = (req,res,next) => {
-    res.render('shop/orders', {
-        pageTitle: 'Orders',
-        activeLink: '/orders'
-    })
+exports.getOrders = (req, res, next) => {
+	res.render('shop/orders', {
+		pageTitle: 'Orders',
+		activeLink: '/orders'
+	})
 }
 
-exports.getCheckout  = (req,res,next) => {
-    res.render('shop/checkout', {
-        products,
-        pageTitle: 'Checkout',
-        activeLink: '/checkout'
-    })
+exports.getCheckout = (req, res, next) => {
+	res.render('shop/checkout', {
+		products,
+		pageTitle: 'Checkout',
+		activeLink: '/checkout'
+	})
 }
-	
