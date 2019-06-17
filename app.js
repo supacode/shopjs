@@ -2,10 +2,12 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-const db = require('./util/db');
+const sequelize = require('./util/db');
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 
 app.set('view engine', 'ejs');
@@ -15,9 +17,12 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorRoutes = require('./controllers/error');
 
-app.use('/admin',adminRoutes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(errorRoutes.get404);
 
-
-app.listen(3000);
+sequelize.sync()
+    .then(() => {
+        app.listen(3000);
+    })
+    .catch(err => console.log(err));
