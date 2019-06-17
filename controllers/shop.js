@@ -16,16 +16,19 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
 	const id = req.params.id;
 
-	console.log(Product);
-
-	Product.findOne(id)
+	Product.findAll({
+			where: {
+				id
+			}
+		})
 		.then((product) => {
+			product = product[0];
 			res.render('shop/product-detail', {
 				product,
 				pageTitle: product.name,
 				activeLink: '/products'
 			});
-			console.log(product);
+
 		})
 		.catch(err => console.log(err));
 
