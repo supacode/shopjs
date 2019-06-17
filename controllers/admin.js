@@ -57,12 +57,17 @@ exports.postEditProduct = (req, res, next) => {
 
 
 exports.getProducts = (req, res, next) => {
-	Product.fetchAll(products =>
-		res.render('admin/products', {
-			products,
-			pageTitle: 'Admin Products',
-			activeLink: '/admin/products'
-		}));
+	Product.fetchAll()
+		.then(([products]) => {
+			res.render('admin/products', {
+				products,
+				pageTitle: 'Admin Products',
+				activeLink: '/admin/products'
+			})
+		})
+		.catch(err => console.log(err));
+
+
 }
 
 
@@ -70,8 +75,9 @@ exports.postDeleteProduct = (req, res, next) => {
 
 	const productId = req.body.productId;
 
-
-	Product.deleteById(productId);
+	Product.deleteById(productId)
+		.then((res) => console.log(res))
+		.catch(err => console.log(err));
 
 	res.redirect('/admin/products');
 
