@@ -16,13 +16,9 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
 	const id = req.params.id;
 
-	Product.findAll({
-			where: {
-				id
-			}
-		})
+	Product.findByPk(id)
 		.then((product) => {
-			product = product[0];
+			// product = product[0];
 			res.render('shop/product-detail', {
 				product,
 				pageTitle: product.name,

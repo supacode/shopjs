@@ -52,13 +52,8 @@ exports.postEditProduct = (req, res, next) => {
 	const newDescription = req.body.description;
 	const newImageUrl = req.body.imageUrl;
 
-	Product.findAll({
-			where: {
-				id
-			}
-		})
+	Product.findByPk(id)
 		.then(product => {
-			product = product[0];
 			product.name = newName;
 			product.price = newPrice;
 			product.description = newDescription;
@@ -91,8 +86,8 @@ exports.getProducts = (req, res, next) => {
 exports.postDeleteProduct = (req, res, next) => {
 	const id = req.body.productId;
 
-	Product.findAll({where: {id}})
-		.then( product => product[0].destroy() )
+	Product.findByPk(id)
+		.then( product => product.destroy() )
 		.then( result => {
 			console.log('Product Destroyed');
 			res.redirect("/admin/products");
