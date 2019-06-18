@@ -26,7 +26,7 @@ exports.postAddProduct = (req, res, next) => {
 exports.getEditProduct = (req, res, next) => {
 	const id = req.params.id;
 
-	Product.findAll({
+	req.user.getProducts({
 			where: {
 				id
 			}
@@ -69,7 +69,8 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
 
-	Product.findAll()
+	req.user
+	.getProducts()
 		.then(products => {
 
 			res.render("admin/products", {
