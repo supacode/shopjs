@@ -13,6 +13,10 @@ app.use(bodyParser.urlencoded({
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+const User = require('./models/user');
+const Product = require('./models/product');
+
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errorRoutes = require('./controllers/error');
@@ -21,8 +25,21 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(errorRoutes.get404);
 
-sequelize.sync()
-    .then(() => {
+User.hasMany(Product, {constraints: true, onDelete: 'CASCADE'});
+
+sequelize
+    // .sync({force: true})
+    .sync()
+    .then( result => {
+        return User.findByPk(1)
+    })
+    .then(user => {
+        if (!user) {
+           user =  User.create({name:"Maverick",email: "test@domain.com"})
+        }
+        return user;
+    })
+    .then (user => {
         app.listen(3000);
     })
     .catch(err => console.log(err));
