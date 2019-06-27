@@ -13,12 +13,13 @@ exports.postAddProduct = (req, res, next) => {
 	const price = post.price;
 	const description = post.description;
 	const imageUrl = post.imageUrl;
-	
+
 	req.user.createProduct({
 			name,
 			price,
 			description,
-			imageUrl})
+			imageUrl
+		})
 		.then(result => res.redirect('/admin/products'))
 		.catch(err => console.log(err));
 };
@@ -59,9 +60,9 @@ exports.postEditProduct = (req, res, next) => {
 			product.imageUrl = newImageUrl;
 			return product.save();
 		})
-		.then( result => {
+		.then(result => {
 			console.log('Product Updated');
-			res.redirect(`/products#${id}`);
+			res.redirect(`/products/${id}`);
 		})
 		.catch(err => console.log(err));
 
@@ -70,7 +71,7 @@ exports.postEditProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
 
 	req.user
-	.getProducts()
+		.getProducts()
 		.then(products => {
 
 			res.render("admin/products", {
@@ -87,11 +88,11 @@ exports.postDeleteProduct = (req, res, next) => {
 	const id = req.body.productId;
 
 	Product.findByPk(id)
-		.then( product => product.destroy() )
-		.then( result => {
+		.then(product => product.destroy())
+		.then(result => {
 			console.log('Product Destroyed');
 			res.redirect("/admin/products");
 		})
-		.catch( err => console.log(err) );
+		.catch(err => console.log(err));
 
 };
