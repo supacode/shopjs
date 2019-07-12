@@ -103,9 +103,9 @@ exports.postCart = (req, res, next) => {
 			}
 			let newQuantity = 1;
 			if (product) {
-			  const oldQuantity = product.cartItem.quantity;
-			  newQuantity = oldQuantity + 1;
-			  return product;
+				const oldQuantity = product.cartItem.quantity;
+				newQuantity = oldQuantity + 1;
+				return product;
 			}
 			return Product.findByPk(productId)
 				.then(product => {
@@ -126,41 +126,51 @@ exports.postCart = (req, res, next) => {
 
 
 exports.getOrders = (req, res, next) => {
-	res.render('shop/orders', {
-		pageTitle: 'Orders',
-		activeLink: '/orders'
-	})
-}
-
-exports.getCheckout = (req, res, next) => {
-	res.render('shop/checkout', {
-		products,
-		pageTitle: 'Checkout',
-		activeLink: '/checkout'
-	})
-}
-
-exports.postOrder = (req, res, next) => {
-	let fetchedCart;
-	req.user.getCart()
-		.then(cart => {
-			fetchedCart = cart;
-			return cart.getProducts();
-		})
-		.then(products => {
-			req.user.createOrder()
-				.then(order => {
-					return order.addProducts(
-						products.map(product => {
-							product.orderItem - {
-								quantity: product.cartItem.quantity
-							};
-							return product;
-						}))
+	exports.getOrders = (req, res, next) => {
+		req.user
+			.getOrders({
+				include: ['products']
+			})
+			.then(orders => {
+				res.render('shop/orders', {
+					activeLink: '/orders',
+					pageTitle: 'Your Orders',
+					orders
 				});
-			console.log(products);
-		})
-		.catch(err => console.log(err));
+			})
+			.catch(err => console.log(err));
+	};
 
+
+	exports.getCheckout = (req, res, next) => {
+		res.render('shop/checkout', {
+			products,
+			pageTitle: 'Checkout',
+			activeLink: '/checkout'
+		})
+	}
+
+	exports.postOrder = (req, res, next) => {
+		let fetchedCart;
+		req.user.getCart()
+			.then(cart => {
+				fetchedCart = cart;
+				return cart.getProducts();
+			})
+			.then(products => {
+				req.user.createOrder()
+					.then(order => {
+						return order.addProducts(
+							products.map(product => {
+								product.orderItem - {
+									quantity: product.cartItem.quantity
+								};
+								return product;
+							}))
+					});
+				console.log(products);
+			})
+			.catch(err => console.log(err));
+	}
 
 }
