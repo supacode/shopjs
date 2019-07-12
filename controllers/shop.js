@@ -103,7 +103,9 @@ exports.postCart = (req, res, next) => {
 			}
 			let newQuantity = 1;
 			if (product) {
-				// if product exists
+			  const oldQuantity = product.cartItem.quantity;
+			  newQuantity = oldQuantity + 1;
+			  return product;
 			}
 			return Product.findByPk(productId)
 				.then(product => {
