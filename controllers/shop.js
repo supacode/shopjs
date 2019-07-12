@@ -47,25 +47,23 @@ exports.getIndex = (req, res, next) => {
 }
 
 exports.getCart = (req, res, next) => {
-
 	req.user.getCart()
 		.then(cart => {
-			req.user.getProducts().then(products => {
-				res.render('shop/cart', {
-					pageTitle: 'Cart',
-					activeLink: '/cart',
-					products
-				});
-			}).catch(err => console.log(err));
+			return cart.getProducts()
+				.then(products => {
+					res.render('shop/cart', {
+						activeLink: '/cart',
+						pageTitle: 'Cart',
+						products
+					});
+				})
+				.catch(err => console.log(err));
 		})
 		.catch(err => console.log(err));
-
-
 }
 
 exports.postCart = (req, res, next) => {
-	const productId = req.body.product;
-	let fetchedCart;
+	const productId = req.body.productId;
 	req.user.getCart()
 		.then(cart => {
 			fetchedCart = cart;
@@ -73,31 +71,31 @@ exports.postCart = (req, res, next) => {
 				where: {
 					id: productId
 				}
-			});
+			})
 		})
 		.then(products => {
 			let product;
-
+			let fetchedCart;
 			if (products.length) {
 				product = products[0];
 			}
 			let newQuantity = 1;
 			if (product) {
-				// Add new quantity
+				// if product exitts
 			}
-
 			return Product.findByPk(productId)
 				.then(product => {
 					return fetchedCart.addProduct(product, {
 						through: {
 							quantity: newQuantity
 						}
-					});
+					})
 				})
-				.catch(err => console.log(err));
-
+				.catch(err => console.log(err))
 		})
-		.then(() => res.redirect('cart'))
+		.then(() => {
+			res.redirect('/cart');
+		})
 		.catch(err => console.log(err));
 
 }

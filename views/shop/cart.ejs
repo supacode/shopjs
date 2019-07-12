@@ -3,17 +3,21 @@
 
 <body>
     <%- include('../inc/nav.ejs') %>
-    <h2> Cart </h2>
     <main>
-        <% if (products.length > 0) { %>
+        <% 
+        if (products.length) 
+        { %>
         <ul class="cart__item-list">
-            <% products.forEach(product => { %>
+            <% 
+            products.forEach(product => { 
+            %>
             <li class="cart__item">
                 <h1><%= product.name %></h1>
-                <h2>Quantity: <%= product.quantity %></h2>
+                <h2>Quantity: <%=  22 %></h2>
                 <form action="/cart-delete-item" method="POST">
                     <input type="hidden" value="<%= product.id %>" name="productId">
-                    <button class="btn danger" type="submit">Delete</button>
+                    <button onclick="return confirm('Are you sure to delete product from cart')" class="btn danger"
+                        type="submit">Delete</button>
                 </form>
             </li>
             <% }) %>
