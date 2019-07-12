@@ -65,8 +65,7 @@ exports.getCart = (req, res, next) => {
 
 exports.postCartDeleteProduct = (req, res, next) => {
 	const productId = req.body.productId;
-	req.user
-		.getCart()
+	req.user.getCart()
 		.then(cart => {
 			return cart.getProducts({
 				where: {
