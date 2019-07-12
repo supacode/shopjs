@@ -34,23 +34,6 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(errorRoutes.get404);
 
-// User.hasMany(User, {
-//     constraints: true,
-//     onDelete: 'CASCADE'
-// });
-// User.hasOne(Cart);
-// Cart.belongsTo(User);
-// Cart.hasMany(CartItem, {
-//     constraints: true,
-//     onDelete: true
-// });
-
-// Cart.belongsToMany(Product, {
-//     through: CartItem
-// });
-// Product.belongsToMany(Cart, {
-//     through: CartItem
-// });
 
 
 Product.belongsTo(User, {
@@ -68,10 +51,8 @@ Product.belongsToMany(Cart, {
 });
 
 sequelize
-    .sync({
-        force: true
-    })
-    // .sync()
+    // .sync({ force: true })
+    .sync()
     .then(result => {
         return User.findByPk(1)
     })
@@ -85,6 +66,8 @@ sequelize
         return user;
     })
     .then(user => {
+        user.createCart();
+    }).then(cart => {
         app.listen(3000);
     })
     .catch(err => console.log(err));

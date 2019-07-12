@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: system-ui,'Segoe UI';
+  font-family: system-ui, 'Segoe UI';
 }
 
 .main-header {
@@ -96,17 +96,17 @@ body {
 }
 
 .card_actions {
-    padding: 1rem;
-    text-align: center;
+  padding: 1rem;
+  text-align: center;
 }
 
 .card_actions form {
-  display:inline-block;
+  display: inline-block;
 }
 
 .card__actions button,
 .card__actions a {
-    margin: 0 0.25rem;
+  margin: 0 0.25rem;
 }
 
 .btn {
@@ -134,31 +134,31 @@ body {
 
 /* Products */
 .product-form {
-    width: 20rem;
-    max-width: 90%;
-    margin: auto;
+  width: 20rem;
+  max-width: 90%;
+  margin: auto;
 }
 
 .product-item {
-    width: 20rem;
-    max-width: 95%;
-    padding: 20px;
-    margin: 2%;
+  width: 20rem;
+  max-width: 95%;
+  padding: 20px;
+  margin: 2%;
 }
 
 .product__title {
-    font-size: 1.2rem;
-    text-align: center;
+  font-size: 1.2rem;
+  text-align: center;
 }
 
 .product__price {
-    text-align: center;
-    color: #4d4d4d;
-    margin-bottom: 0.5rem;
+  text-align: center;
+  color: #4d4d4d;
+  margin-bottom: 0.5rem;
 }
 
 .product__description {
-    text-align: center;
+  text-align: center;
 }
 
 /* Product Form */
@@ -176,11 +176,13 @@ body {
   line-height: 1.5;
 }
 
-.product-form > div {
+.product-form>div {
   margin-bottom: 10px;
 }
 
-.product-form input[type="text"],.product-form input[type="number"],.product-form textarea {
+.product-form input[type="text"],
+.product-form input[type="number"],
+.product-form textarea {
   border: 1p solid #ccc;
   padding: 7px 5px;
   width: 100%;
@@ -208,4 +210,3 @@ body {
   text-align: center;
   line-height: 2;
 }
-
