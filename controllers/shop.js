@@ -103,7 +103,7 @@ exports.postCart = (req, res, next) => {
 			}
 			let newQuantity = 1;
 			if (product) {
-				// if product exitts
+				// if product exists
 			}
 			return Product.findByPk(productId)
 				.then(product => {
@@ -139,8 +139,10 @@ exports.getCheckout = (req, res, next) => {
 }
 
 exports.postOrder = (req, res, next) => {
+	let fetchedCart;
 	req.user.getCart()
 		.then(cart => {
+			fetchedCart = cart;
 			return cart.getProducts();
 		})
 		.then(products => {
