@@ -15,13 +15,13 @@ app.use(
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-// const adminRoutes = require("./routes/admin");
+const adminRoutes = require("./routes/admin");
 // const shopRoutes = require("./routes/shop");
-// const errorRoutes = require("./controllers/error");
+const errorRoutes = require("./controllers/error");
 
-// app.use("/admin", adminRoutes);
+app.use("/admin", adminRoutes);
 // app.use(shopRoutes);
-// app.use(errorRoutes.get404);
+app.use(errorRoutes.get404);
 
 connection(() => {
     app.listen(3000);
