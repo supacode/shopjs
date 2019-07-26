@@ -16,11 +16,11 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 const adminRoutes = require("./routes/admin");
-// const shopRoutes = require("./routes/shop");
+const shopRoutes = require("./routes/shop");
 const errorRoutes = require("./controllers/error");
 
 app.use("/admin", adminRoutes);
-// app.use(shopRoutes);
+app.use(shopRoutes);
 app.use(errorRoutes.get404);
 
 connection(() => {
