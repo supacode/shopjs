@@ -1,37 +1,37 @@
 <%- include('../inc/head.ejs') %>
 </head>
+
 <body>
-<%- include('../inc/nav.ejs') %>
-<% if (products.length) { %>	
-<div class="grid">
-
-	<% products.forEach( (product) =>  { %>
-	<article id="<%= product.id %>" class="card product-item">
-    	<header class="card_header">
-    		<h1 class="product_title"> <%= product.name %> </h1>
-    	</header>
-    	<div class="card_image">
-			<a href="/products/<%= product.id %>">
-				<img src="/img/<%= product.imageUrl %>" alt="<%= product.name %>">
-			</a>
-    	</div>
-    	<div class="card_content">
-    		<h2 class="product_price">$<%= product.price %></h2>
-    		<p class="product_description"><%= product.description %></p>
-    	</div>
-    	<div class="card_actions">
-			<a href="/products/<%= product._id %>" class="btn">Details</a>
-			<%- include('../inc/add-to-cart-form.ejs', {product} ) %>
-    	</div>
-	</article>
-	<% }) %>
-</div>
-<% } else { %>
+	<%- include('../inc/nav.ejs') %>
+	<% if (products.length) { %>
+	<div class="grid">
+		<% products.forEach( product =>  { %>
+		<article id="<%= product._id %>" class="card product-item">
+			<header class="card_header">
+				<h1 class="product_title"> <%= product.name %> </h1>
+			</header>
+			<div class="card_image">
+				<a href="/products/<%= product.id %>">
+					<img src="/img/<%= product.imageUrl %>" alt="<%= product.name %>">
+				</a>
+			</div>
+			<div class="card_content">
+				<h2 class="product_price">$<%= product.price %></h2>
+				<p class="product_description"><%= product.description %></p>
+			</div>
+			<div class="card_actions">
+				<a href="/products/<%= product._id %>" class="btn">Details</a>
+				<%- include('../inc/add-to-cart-form.ejs', {product} ) %>
+			</div>
+		</article>
+		<% }) %>
+	</div>
+	<% } else { %>
 	<h2> No Products </h2>
-<% } %>
+	<% } %>
 
 
 
 
 
-<%- include('../inc/end.ejs') %>
+	<%- include('../inc/end.ejs') %>
