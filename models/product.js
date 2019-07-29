@@ -1,15 +1,14 @@
 const getDb = require('../util/db').getDb;
 const mongodb = require('mongodb');
 class Product {
-  constructor(name, price, description, imageUrl, id) {
+  constructor(name, price, description, imageUrl, id, userId) {
     this.name = name;
     this.price = +price;
     this.description = description;
     this.imageUrl = imageUrl;
-    this._id = id ? new mongodb.ObjectId() : null;
+    this._id = id ? new mongodb.ObjectId(id) : null;
+    this.user = userId
   }
-
-
 
 
   save() {
@@ -38,10 +37,7 @@ class Product {
 
   static fetchAll() {
 
-
     const db = getDb();
-
-
 
     return db.collection('products').find().toArray()
       .then(products => products)
@@ -72,6 +68,5 @@ class Product {
       .catch(err => console.log(err))
   }
 }
-
 
 module.exports = Product;
