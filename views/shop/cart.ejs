@@ -13,9 +13,9 @@
             %>
             <li class="cart__item">
                 <h1><%= product.name %></h1>
-                <h2>Quantity: <%=  22 %></h2>
+                <h2>Quantity: <%=  product.quantity %></h2>
                 <form action="/cart-delete-item" method="POST">
-                    <input type="hidden" value="<%= product.id %>" name="productId">
+                    <input type="hidden" value="<%= product._id %>" name="productId">
                     <button onclick="return confirm('Are you sure to delete product from cart')" class="btn danger"
                         type="submit">Delete</button>
                 </form>

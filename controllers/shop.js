@@ -48,16 +48,12 @@ exports.getIndex = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
 	req.user.getCart()
-		.then(cart => {
-			return cart.getProducts()
-				.then(products => {
-					res.render('shop/cart', {
-						activeLink: '/cart',
-						pageTitle: 'Cart',
-						products
-					});
-				})
-				.catch(err => console.log(err));
+		.then(products => {
+			res.render('shop/cart', {
+				activeLink: '/cart',
+				pageTitle: 'Cart',
+				products
+			})
 		})
 		.catch(err => console.log(err));
 }
