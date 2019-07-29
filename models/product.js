@@ -7,7 +7,7 @@ class Product {
     this.description = description;
     this.imageUrl = imageUrl;
     this._id = id ? new mongodb.ObjectId(id) : null;
-    this.user = userId
+    this.user = userId;
   }
 
 
@@ -26,7 +26,6 @@ class Product {
       // Insert new Product
       action = db.collection('products').insertOne(this);
     }
-
 
     return action
       .then(result => result)
