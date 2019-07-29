@@ -88,45 +88,8 @@ exports.postCart = (req, res, next) => {
 			return req.user.addToCart(prod);
 		})
 		.then(result => {
-			res.redirect('back');
-		})
-	/* 
-	req.user.getCart()
-		.then(cart => {
-			fetchedCart = cart;
-			return cart.getProducts({
-				where: {
-					id: productId
-				}
-			})
-		})
-		.then(products => {
-			let product;
-			let fetchedCart;
-			if (products.length) {
-				product = products[0];
-			}
-			let newQuantity = 1;
-			if (product) {
-				const oldQuantity = product.cartItem.quantity;
-				newQuantity = oldQuantity + 1;
-				return product;
-			}
-			return Product.findByPk(productId)
-				.then(product => {
-					return fetchedCart.addProduct(product, {
-						through: {
-							quantity: newQuantity
-						}
-					})
-				})
-				.catch(err => console.log(err))
-		})
-		.then(() => {
 			res.redirect('/cart');
 		})
-		.catch(err => console.log(err));
-		*/
 
 }
 
