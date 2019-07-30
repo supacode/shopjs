@@ -2,7 +2,9 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
-const connection = require("./util/db").connection;
+const mongoose = require('mongoose');
+
+
 
 const User = require("./models/user");
 
@@ -35,12 +37,12 @@ app.use((req, res, next) => {
 
 
 
-app.use("/admin", adminRoutes);
-app.use(shopRoutes);
-app.use(errorRoutes.get404);
+// app.use("/admin", adminRoutes);
+// app.use(shopRoutes);
+// app.use(errorRoutes.get404);
 
-
-
-connection(() => {
-    app.listen(3000);
-});
+mongoose.connect('mongodb://localhost/shop')
+    .then(() => {
+        app.listen(3000);
+    })
+    .catch(err => console.log(err));
