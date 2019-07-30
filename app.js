@@ -23,23 +23,23 @@ const shopRoutes = require("./routes/shop");
 const errorRoutes = require("./controllers/error");
 
 
-app.use((req, res, next) => {
+// app.use((req, res, next) => {
 
-    User.findById('5d3b852f34fa945eb52345ef')
-        .then(user => {
-            req.user = new User(user.name, user.email, user.cart, user._id)
-            next();
-            return user;
-        })
-        .catch(err => console.log(err));
+//     User.findById('5d3b852f34fa945eb52345ef')
+//         .then(user => {
+//             req.user = new User(user.name, user.email, user.cart, user._id)
+//             next();
+//             return user;
+//         })
+//         .catch(err => console.log(err));
 
-});
+// });
 
 
 
-// app.use("/admin", adminRoutes);
-// app.use(shopRoutes);
-// app.use(errorRoutes.get404);
+app.use("/admin", adminRoutes);
+app.use(shopRoutes);
+app.use(errorRoutes.get404);
 
 mongoose.connect('mongodb://localhost/shop')
     .then(() => {
