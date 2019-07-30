@@ -32,7 +32,6 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getEditProduct = (req, res, next) => {
 	const id = req.params.id;
-
 	Product.findById(id)
 		.then(product => {
 			res.render("admin/edit-product", {
@@ -47,17 +46,19 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
 	const id = req.body.productId;
-
 	const newName = req.body.name;
 	const newPrice = req.body.price;
 	const newDescription = req.body.description;
 	const newImageUrl = req.body.imageUrl;
 
-
-	const product = new Product(newName, newPrice, newDescription, newImageUrl, id);
-
-	product.save()
-		.then(result => {
+	Product.findById(id).then(product => {
+		product.name = newName;
+		product.price = newPrice;
+		product.description = newDescription;
+		product.imageUrl = newImageUrl;
+		return product.save()
+	})
+		.then(() => {
 			res.redirect(`/admin/products#${id}`);
 		})
 		.catch(err => console.log(err));

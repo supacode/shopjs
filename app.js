@@ -4,8 +4,6 @@ const bodyParser = require("body-parser");
 const app = express();
 const mongoose = require('mongoose');
 
-
-
 const User = require("./models/user");
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -41,7 +39,7 @@ app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 app.use(errorRoutes.get404);
 
-mongoose.connect('mongodb://localhost/shop')
+mongoose.connect('mongodb://localhost/shop', {useNewUrlParser: 1 } )
     .then(() => {
         app.listen(3000);
     })
