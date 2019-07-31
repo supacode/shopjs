@@ -10,18 +10,24 @@ const productSchema = new Schema({
     type: Number,
     required: true
   },
-  imageUrl: {
-    type: String,
-    required: true
-  },
   description: {
     type: String,
     required: true
   },
+  imageUrl: {
+    type: String,
+    required: true
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   date: {
     type: Date,
-    default: Date
+    default: Date.now
   }
 });
+
 
 module.exports = mongoose.model('Product', productSchema);

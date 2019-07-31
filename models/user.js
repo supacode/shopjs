@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 
-userSchema = new Schema({
-    username: {
+const userSchema = new Schema({
+    name: {
         type: String,
         required: true
     },
@@ -10,14 +11,11 @@ userSchema = new Schema({
         type: String,
         required: true
     },
-    date: {
-        type: Date,
-        default: Date.now
-    },
     cart: {
         items: [{
             productId: {
                 type: Schema.Types.ObjectId,
+                ref: 'Product',
                 required: true
             },
             quantity: {
@@ -25,6 +23,10 @@ userSchema = new Schema({
                 required: true
             }
         }]
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
 });
 

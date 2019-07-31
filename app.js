@@ -21,26 +21,37 @@ const shopRoutes = require("./routes/shop");
 const errorRoutes = require("./controllers/error");
 
 
-// app.use((req, res, next) => {
-
-//     User.findById('5d3b852f34fa945eb52345ef')
-//         .then(user => {
-//             req.user = new User(user.name, user.email, user.cart, user._id)
-//             next();
-//             return user;
-//         })
-//         .catch(err => console.log(err));
-
-// });
-
-
+app.use((req, res, next) => {
+    User.findOne()
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => console.log(err));
+});
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 app.use(errorRoutes.get404);
 
-mongoose.connect('mongodb://localhost/shop', {useNewUrlParser: 1 } )
+mongoose.connect('mongodb://localhost/shop', {
+        useNewUrlParser: 1
+    })
     .then(() => {
+        User.findOne()
+            .then(user => {
+                if (!user) {
+                    user = new User({
+                        username: 'Maverick',
+                        email: 'maverick@test.com',
+                        cart: {
+                            items: []
+                        }
+                    });
+                    user.save();
+                }
+            })
+            .catch(err => console.log(err));
         app.listen(3000);
     })
     .catch(err => console.log(err));
