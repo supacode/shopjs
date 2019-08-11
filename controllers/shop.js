@@ -2,12 +2,13 @@ const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
 	Product.find()
-		.then(products =>
+		.then(products => {
 			res.render('shop/product-list', {
 				products,
-				pageTitle: 'Home',
+				pageTitle: 'Products',
 				activeLink: '/products'
-			}))
+			})
+		})
 		.catch(err => console.log(err))
 }
 
@@ -44,17 +45,6 @@ exports.getIndex = (req, res, next) => {
 
 }
 
-exports.getCart = (req, res, next) => {
-	req.user.getCart()
-		.then(products => {
-			res.render('shop/cart', {
-				activeLink: '/cart',
-				pageTitle: 'Cart',
-				products
-			})
-		})
-		.catch(err => console.log(err));
-}
 
 
 exports.postCartDeleteProduct = (req, res, next) => {
@@ -66,15 +56,32 @@ exports.postCartDeleteProduct = (req, res, next) => {
 		.catch(err => console.log(err));
 };
 
+
+
+exports.getCart = (req, res, next) => {
+	req.user
+		.populate('cart.items.productId')
+		.execPopulate()
+		.then(user => {
+			res.render('shop/cart', {
+				activeLink: '/cart',
+				pageTitle: 'Cart',
+				products: user.cart.items
+			})
+		})
+		.catch(err => console.log(err));
+}
+
+
 exports.postCart = (req, res, next) => {
-	const product = req.body.product;
-	Product.findById(product)
-		.then(prod => {
-			return req.user.addToCart(prod);
+
+	const productId = req.body.product;
+	return Product.findById(productId)
+		.then(product => {
+			req.user.addToCart(product);
+			return res.redirect('back');
 		})
-		.then(result => {
-			res.redirect('/cart');
-		})
+		.catch(err => console.log(err));
 
 }
 
