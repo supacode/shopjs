@@ -128,6 +128,7 @@ exports.postOrder = (req, res, next) => {
 
 			return order.save();
 		})
+		.then(() => req.user.emptyCart())
 		.then(() => res.redirect('back'))
 		.catch(err => console.log(err));
 }
