@@ -81,7 +81,7 @@ exports.postCart = (req, res, next) => {
 	return Product.findById(productId)
 		.then(product => {
 			req.user.addToCart(product);
-			return res.redirect('back');
+			return res.redirect('cart');
 		})
 		.catch(err => console.log(err));
 
@@ -100,6 +100,11 @@ exports.getOrders = (req, res, next) => {
 		.catch(err => console.log(err));
 };
 
+exports.postOrder = (req, res, next) => {
+	req.user.addOrder()
+		.then(result => res.redirect('/orders'))
+		.catch(err => console.log(err));
+}
 
 exports.getCheckout = (req, res, next) => {
 	res.render('shop/checkout', {
@@ -107,10 +112,4 @@ exports.getCheckout = (req, res, next) => {
 		pageTitle: 'Checkout',
 		activeLink: '/checkout'
 	})
-}
-
-exports.postOrder = (req, res, next) => {
-	req.user.addOrder()
-		.then(result => res.redirect('/orders'))
-		.catch(err => console.log(err));
 }
