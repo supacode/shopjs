@@ -48,10 +48,12 @@ exports.getIndex = (req, res, next) => {
 
 
 exports.postCartDeleteProduct = (req, res, next) => {
+
 	const productId = req.body.productId;
+
 	req.user.deleteFromCart(productId)
 		.then(result => {
-			res.redirect('/cart');
+			res.redirect('back');
 		})
 		.catch(err => console.log(err));
 };
