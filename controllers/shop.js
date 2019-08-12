@@ -83,15 +83,18 @@ exports.postCart = (req, res, next) => {
 		.then(product => {
 			return req.user.addToCart(product);
 		})
-		.then(() => res.redirect('cart'))
+		.then(() => res.redirect('/cart'))
 		.catch(err => console.log(err));
 
 }
 
 exports.getOrders = (req, res, next) => {
-	req.user
-		.getOrders()
+
+	Order.find({
+			'user.id': req.user._id
+		})
 		.then(orders => {
+
 			res.render('shop/orders', {
 				activeLink: '/orders',
 				pageTitle: 'Your Orders',
@@ -107,7 +110,6 @@ exports.postOrder = (req, res, next) => {
 		.populate('cart.items.productId')
 		.execPopulate()
 		.then(user => {
-
 			// Map products on User document to product
 			const products = user.cart.items.map(product => {
 				return {
@@ -122,14 +124,14 @@ exports.postOrder = (req, res, next) => {
 				products,
 				user: {
 					username: req.user.username,
-					userId: req.user
+					id: req.user
 				}
 			});
 
 			return order.save();
 		})
 		.then(() => req.user.emptyCart())
-		.then(() => res.redirect('back'))
+		.then(() => res.redirect('/orders'))
 		.catch(err => console.log(err));
 }
 
