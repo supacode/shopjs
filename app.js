@@ -16,8 +16,9 @@ app.set("views", "views");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
-const errorRoutes = require("./controllers/error");
+const authRoutes = require("./routes/auth");
 
+const errorRoutes = require("./controllers/error");
 app.use((req, res, next) => {
     User.findOne()
         .then(user => {
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 app.use(errorRoutes.get404);
 
 mongoose.connect('mongodb://localhost/shop', {
