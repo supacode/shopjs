@@ -1,6 +1,7 @@
-exports.get404 = (req,res,next) => {
+exports.get404 = (req, res, next) => {
 	res.status(404).render('404', {
 		activeLink: '/404',
-		pageTitle: 'Page not Found'
+		pageTitle: 'Page not Found',
+		isAuth: req.isAuth
 	});
 }

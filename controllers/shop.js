@@ -1,13 +1,31 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
 
+exports.getIndex = (req, res, next) => {
+	console.log(req.isAuth);
+	Product.find()
+		.then((products) => {
+				res.render('shop/index', {
+					products,
+					pageTitle: 'Home',
+					activeLink: '/',
+					isAuth: req.isAuth
+				});
+			}
+
+		)
+		.catch(err => console.log(err));
+}
+
+
 exports.getProducts = (req, res, next) => {
 	Product.find()
 		.then(products => {
 			res.render('shop/product-list', {
 				products,
 				pageTitle: 'Products',
-				activeLink: '/products'
+				activeLink: '/products',
+				isAuth: req.isAuth
 			})
 		})
 		.catch(err => console.log(err))
@@ -21,32 +39,14 @@ exports.getProduct = (req, res, next) => {
 			res.render('shop/product-detail', {
 				product,
 				pageTitle: product.name,
-				activeLink: '/products'
+				activeLink: '/products',
+				isAuth: req.isAuth
 			});
 
 		})
 		.catch(err => console.log(err));
 
 }
-
-
-exports.getIndex = (req, res, next) => {
-	Product.find()
-		.then((products) => {
-				res.render('shop/index', {
-					products,
-					pageTitle: 'Home',
-					activeLink: '/'
-				});
-			}
-
-		)
-		.catch(err => console.log(err));
-
-
-}
-
-
 
 exports.postCartDeleteProduct = (req, res, next) => {
 
@@ -69,7 +69,8 @@ exports.getCart = (req, res, next) => {
 			res.render('shop/cart', {
 				activeLink: '/cart',
 				pageTitle: 'Cart',
-				products: user.cart.items
+				products: user.cart.items,
+				isAuth: req.isAuth
 			})
 		})
 		.catch(err => console.log(err));
@@ -98,7 +99,8 @@ exports.getOrders = (req, res, next) => {
 			res.render('shop/orders', {
 				activeLink: '/orders',
 				pageTitle: 'Your Orders',
-				orders
+				orders,
+				isAuth: req.isAuth
 			});
 		})
 		.catch(err => console.log(err));
@@ -139,6 +141,7 @@ exports.getCheckout = (req, res, next) => {
 	res.render('shop/checkout', {
 		products,
 		pageTitle: 'Checkout',
-		activeLink: '/checkout'
+		activeLink: '/checkout',
+		isAuth: req.isAuth
 	})
 }

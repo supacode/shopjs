@@ -38,7 +38,9 @@ exports.getEditProduct = (req, res, next) => {
 			res.render("admin/edit-product", {
 				pageTitle: "Edit Product",
 				activeLink: "/admin/edit-product",
-				product
+				product,
+				isAuth: req.isAuth
+
 			});
 		})
 		.catch(err => console.log(err));
@@ -71,7 +73,8 @@ exports.getProducts = (req, res, next) => {
 			res.render("admin/products", {
 				products,
 				pageTitle: "Admin Products",
-				activeLink: "/admin/products"
+				activeLink: "/admin/products",
+				isAuth: req.isAuth
 			});
 		})
 		.catch(err => console.log(err));
