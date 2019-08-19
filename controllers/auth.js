@@ -4,17 +4,20 @@ exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         activeLink: '/login',
         pageTitle: 'Login',
-        isAuth: req.isAuth
+        isAuth: false
     });
 }
 
 exports.postLogin = (req, res, next) => {
 
-    User.findOne()
+    User.findById()
         .then(user => {
             req.session.isLoggedIn = true;
             req.session.user = user;
-            res.redirect('/');
+            req.session.save(err => {
+                console.log(err);
+                res.redirect('/');
+            });
         })
         .catch(err => console.log(err));
 
@@ -27,6 +30,5 @@ exports.postLogout = (req, res, next) => {
         console.log(err);
         res.redirect('/');
     });
-
 
 }

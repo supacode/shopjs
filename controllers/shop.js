@@ -95,7 +95,6 @@ exports.getOrders = (req, res, next) => {
 			'user.id': req.user._id
 		})
 		.then(orders => {
-
 			res.render('shop/orders', {
 				activeLink: '/orders',
 				pageTitle: 'Your Orders',
