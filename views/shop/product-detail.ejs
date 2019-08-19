@@ -1,26 +1,29 @@
 <%- include('../inc/head.ejs') %>
 </head>
+
 <body>
-<%- include('../inc/nav.ejs') %>
-<div class="grid">
+	<%- include('../inc/nav.ejs') %>
+	<div class="grid">
 
 
 
-<article class="card product-item">
-    	<header class="card_header">
-    		<h1 class="product_title"> <%= product.name %> </h1>
-    	</header>
-    	<div class="card_image">
-			<img src="/img/<%= product.imageUrl %>" alt="<%= product.name %>">
-    	</div>
-    	<div class="card_content">
-    		<p class="product_description"> <%= product.description %></p>
-    	</div>
-    	<div class="card_actions">
-			<a href="/products" class="btn">Back</a>
-			<%- include('../inc/add-to-cart-form.ejs', {product} ) %>
-    	</div>
-	</article>
+		<article class="card product-item">
+			<header class="card_header">
+				<h1 class="product_title"> <%= product.name %> </h1>
+			</header>
+			<div class="card_image">
+				<img src="/img/<%= product.imageUrl %>" alt="<%= product.name %>">
+			</div>
+			<div class="card_content">
+				<p class="product_description"> <%= product.description %></p>
+			</div>
+			<div class="card_actions">
+				<a href="/products" class="btn">Back</a>
+				<% if (isAuth) { %>
+				<%-  include('../inc/add-to-cart-form.ejs', {product} ) %>
+				<% } %>
+			</div>
+		</article>
 
 
 
@@ -28,7 +31,5 @@
 
 
 
-</div>
-<%- include('../inc/end.ejs') %>
-
-
+	</div>
+	<%- include('../inc/end.ejs') %>

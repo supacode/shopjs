@@ -9,7 +9,7 @@ exports.getIndex = (req, res, next) => {
 					products,
 					pageTitle: 'Home',
 					activeLink: '/',
-					isAuth: req.isAuth
+					isAuth: req.session.isLoggedIn
 				});
 			}
 
@@ -25,7 +25,7 @@ exports.getProducts = (req, res, next) => {
 				products,
 				pageTitle: 'Products',
 				activeLink: '/products',
-				isAuth: req.isAuth
+				isAuth: req.session.isLoggedIn
 			})
 		})
 		.catch(err => console.log(err))
@@ -40,7 +40,7 @@ exports.getProduct = (req, res, next) => {
 				product,
 				pageTitle: product.name,
 				activeLink: '/products',
-				isAuth: req.isAuth
+				isAuth: req.session.isLoggedIn
 			});
 
 		})
@@ -70,7 +70,7 @@ exports.getCart = (req, res, next) => {
 				activeLink: '/cart',
 				pageTitle: 'Cart',
 				products: user.cart.items,
-				isAuth: req.isAuth
+				isAuth: req.session.isLoggedIn
 			})
 		})
 		.catch(err => console.log(err));
@@ -100,7 +100,7 @@ exports.getOrders = (req, res, next) => {
 				activeLink: '/orders',
 				pageTitle: 'Your Orders',
 				orders,
-				isAuth: req.isAuth
+				isAuth: req.session.isLoggedIn
 			});
 		})
 		.catch(err => console.log(err));
@@ -142,6 +142,7 @@ exports.getCheckout = (req, res, next) => {
 		products,
 		pageTitle: 'Checkout',
 		activeLink: '/checkout',
-		isAuth: req.isAuth
+		isAuth: req.session.isLoggedIn
+
 	})
 }

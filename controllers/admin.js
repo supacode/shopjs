@@ -3,7 +3,8 @@ const Product = require("../models/product");
 exports.getAddProduct = (req, res, next) => {
 	res.render("admin/add-product", {
 		pageTitle: "Add Product",
-		activeLink: "/admin/add-product"
+		activeLink: "/admin/add-product",
+		isAuth: req.session.isLoggedIn
 	});
 };
 
@@ -39,8 +40,7 @@ exports.getEditProduct = (req, res, next) => {
 				pageTitle: "Edit Product",
 				activeLink: "/admin/edit-product",
 				product,
-				isAuth: req.isAuth
-
+				isAuth: req.session.isLoggedIn
 			});
 		})
 		.catch(err => console.log(err));
@@ -74,7 +74,7 @@ exports.getProducts = (req, res, next) => {
 				products,
 				pageTitle: "Admin Products",
 				activeLink: "/admin/products",
-				isAuth: req.isAuth
+				isAuth: req.session.isLoggedIn
 			});
 		})
 		.catch(err => console.log(err));

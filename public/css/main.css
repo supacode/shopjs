@@ -204,6 +204,7 @@ body {
   padding: 7px 5px;
   width: 100%;
   display: block;
+  border: 1px solid #ccc;
 }
 
 .product-item {
