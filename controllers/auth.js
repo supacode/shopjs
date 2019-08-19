@@ -1,12 +1,27 @@
 const User = require('../models/user');
 exports.getLogin = (req, res, next) => {
-    console.log(req.session);
     res.render('auth/login', {
         activeLink: '/login',
         pageTitle: 'Login',
         isAuth: false
     });
 }
+
+exports.getSignup = (req, res, next) => {
+    res.render('auth/signup', {
+        activeLink: '/signup',
+        pageTitle: 'Signup',
+        isAuth: false
+    });
+}
+
+exports.postSignup = (req, res, next) => {
+
+    console.log(req.body);
+    res.redirect('back');
+
+}
+
 
 exports.postLogin = (req, res, next) => {
 

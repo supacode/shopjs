@@ -41,6 +41,12 @@
 				</a>
 			</li>
 
+			<li class="main-header__item">
+				<a class="<%- (activeLink == '/signup') ? 'active' : '' %>" href="/signup">
+					Signup
+				</a>
+			</li>
+
 			<% } else { %>
 			<li class="main-header__item">
 				<form method="post" action="/logout">
