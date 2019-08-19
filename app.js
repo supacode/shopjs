@@ -71,20 +71,6 @@ mongoose
         useNewUrlParser: 1
     })
     .then(() => {
-        User.findOne()
-            .then(user => {
-                if (!user) {
-                    user = new User({
-                        username: "Maverick",
-                        email: "maverick@test.com",
-                        cart: {
-                            items: []
-                        }
-                    });
-                    user.save();
-                }
-            })
-            .catch(err => console.log(err));
         app.listen(3000);
     })
     .catch(err => console.log(err));
