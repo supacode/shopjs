@@ -8,8 +8,7 @@ exports.getIndex = (req, res, next) => {
 				res.render('shop/index', {
 					products,
 					pageTitle: 'Home',
-					activeLink: '/',
-					isAuth: req.session.isLoggedIn
+					activeLink: '/'
 				});
 			}
 
@@ -24,8 +23,7 @@ exports.getProducts = (req, res, next) => {
 			res.render('shop/product-list', {
 				products,
 				pageTitle: 'Products',
-				activeLink: '/products',
-				isAuth: req.session.isLoggedIn
+				activeLink: '/products'
 			})
 		})
 		.catch(err => console.log(err))
@@ -123,7 +121,7 @@ exports.postOrder = (req, res, next) => {
 			const order = new Order({
 				products,
 				user: {
-					username: req.user.username,
+					email: req.user.email,
 					id: req.user
 				}
 			});
