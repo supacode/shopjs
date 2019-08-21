@@ -1,4 +1,8 @@
+const bcrypt = require('bcryptjs');
+
 const User = require('../models/user');
+
+
 exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         activeLink: '/login',
@@ -30,13 +34,16 @@ exports.postSignup = (req, res, next) => {
                 return res.redirect('back');
             }
 
+            return bcrypt.hash(password, 12);
+        })
+        .then(hashedPassword => {
+
             const user = new User({
                 email,
-                password
+                password: hashedPassword
             });
 
             return user.save();
-
         })
         .then(() => res.redirect('/login'))
         .catch(err => console.log(err));
