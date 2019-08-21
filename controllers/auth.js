@@ -50,7 +50,7 @@ exports.postSignup = (req, res, next) => {
 }
 
 exports.postLogin = (req, res, next) => {
-    User.findById()
+    User.findOne()
         .then(user => {
             req.session.isLoggedIn = true;
             req.session.user = user;
