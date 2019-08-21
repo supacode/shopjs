@@ -34,18 +34,17 @@ exports.postSignup = (req, res, next) => {
                 return res.redirect('back');
             }
 
-            return bcrypt.hash(password, 12);
-        })
-        .then(hashedPassword => {
+            return bcrypt.hash(password, 12)
+                .then(hashedPassword => {
+                    const user = new User({
+                        email,
+                        password: hashedPassword
+                    });
 
-            const user = new User({
-                email,
-                password: hashedPassword
-            });
-
-            return user.save();
+                    return user.save();
+                })
+                .then(() => res.redirect('/login'))
         })
-        .then(() => res.redirect('/login'))
         .catch(err => console.log(err));
 
 }
