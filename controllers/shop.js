@@ -98,8 +98,7 @@ exports.getOrders = (req, res, next) => {
 			res.render('shop/orders', {
 				activeLink: '/orders',
 				pageTitle: 'Your Orders',
-				orders,
-				isAuth: req.session.isLoggedIn
+				orders
 			});
 		})
 		.catch(err => console.log(err));
@@ -140,8 +139,7 @@ exports.getCheckout = (req, res, next) => {
 	res.render('shop/checkout', {
 		products,
 		pageTitle: 'Checkout',
-		activeLink: '/checkout',
-		isAuth: req.session.isLoggedIn
+		activeLink: '/checkout'
 
 	})
 }

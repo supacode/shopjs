@@ -44,6 +44,12 @@ app.use((req, res, next) => {
         .catch(err => console.log(err));
 });
 
+app.use((req, res, next) => {
+    res.locals.isAuth = req.session.isLoggedIn;
+    next();
+});
+
+
 app.set("view engine", "ejs");
 app.set("views", "views");
 
