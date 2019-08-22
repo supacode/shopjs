@@ -29,10 +29,14 @@
 		</article>
 		<% }) %>
 	</div>
-	<ul class="pagination">
-		<li><a href="?page=1">1</a></li>
-		<li><a href="?page=1">2</a></li>
-	</ul>
+	<%-
+	include('../inc/pagination.ejs',{
+		currentPage,
+		hasNextPage, 
+		nextPage,
+		previousPage,
+		lastPage	} 
+	)%>
 	<% } else { %>
 	<h2> No Products </h2>
 	<% } %>

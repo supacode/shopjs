@@ -340,7 +340,8 @@ body {
 
 .pagination li a:hover,
 .pagination li a:focus,
-.pagination li a:active {
+.pagination li a:active,
+.pagination a.active {
   background: #069;
   color: #fff;
 }
