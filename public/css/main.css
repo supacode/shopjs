@@ -53,7 +53,9 @@ body {
 }
 
 .main-header__nav a:hover,
-.main-header__nav li input:hover {
+.main-header__nav li input:hover,
+.main-header__nav a:focus,
+.main-header__nav li input:focus {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -83,8 +85,15 @@ body {
 }
 
 .card {
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.26);
+  transition: .4s ease-out box-shadow;
+}
+
+.card:hover,
+.card:focus {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
+
 
 .card_header,
 .card_content {
@@ -305,6 +314,33 @@ body {
 .orders__products-item {
   margin: 0.5rem 0;
   padding: 0.5rem;
-  border: 1px solid #00695c;
-  color: #00695c;
+  border: 1px solid #069;
+  color: #069;
+}
+
+
+.pagination {
+  text-align: center;
+}
+
+.pagination li {
+  list-style: none;
+  display: inline-block;
+  margin: 0 .5rem;
+}
+
+.pagination li a {
+  display: inline-block;
+  border: 1px solid #069;
+  text-decoration: none;
+  color: #069;
+  padding: .5rem .9rem;
+  border-radius: 50%;
+}
+
+.pagination li a:hover,
+.pagination li a:focus,
+.pagination li a:active {
+  background: #069;
+  color: #fff;
 }
