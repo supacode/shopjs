@@ -178,11 +178,16 @@ body {
 .auth-form input[type="text"],
 .auth-form input[type="email"],
 .auth-form input[type="password"] {
-  border: 1p solid #ccc;
   padding: 7px 5px;
   width: 100%;
   display: block;
   border: 1px solid #ccc;
+}
+
+.auth-form input[type="text"]:focus,
+.auth-form input[type="email"]:focus,
+.auth-form input[type="password"]:focus {
+  border-color: #069;
 }
 
 .form-flex-wrap {
@@ -190,7 +195,6 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-
 
 /* Product Form */
 .product-form {
