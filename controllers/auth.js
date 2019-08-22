@@ -147,20 +147,44 @@ exports.getNewPassword = (req, res, next) => {
             res.render('auth/new-password', {
                 pageTitle: 'New Passowrd',
                 activeLink: '/login',
-                user: user._id.toString()
+                user: user._id.toString(),
+                token
             });
         })
         .catch(err => console.log(err));
-
-
-
-
 }
+
 exports.postNewPassword = (req, res, next) => {
-
-    console.log(req.body);
-    res.redirect('back');
-
+    const newPassword = req.body.newPassword;
+    const passwordToken = req.body.token;
+    const userId = req.body.user;
+    let resetUser;
+    User.findOne({
+            _id: userId,
+            resetTokenExpiry: {
+                $gt: Date.now()
+            },
+            resetToken: {
+                $eq: passwordToken
+            }
+        })
+        .then(user => {
+            if (!user) {
+                return res.redirect('back');
+            }
+            resetUser = user;
+            return bcrypt.hash(newPassword, 12);
+        })
+        .then(hashedPassword => {
+            resetUser.password = hashedPassword;
+            resetUser.resetToken = undefined;
+            resetUser.resetTokenExpiry = undefined;
+            return resetUser.save();
+        })
+        .then(result => {
+            res.redirect('/login')
+        })
+        .catch(err => console.log(err));
 }
 
 
@@ -169,5 +193,4 @@ exports.postLogout = (req, res, next) => {
         console.log(err);
         res.redirect('/');
     });
-
 }
