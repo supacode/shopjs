@@ -27,6 +27,8 @@ const userSchema = new Schema({
             items: []
         }
     },
+    resetToken: String,
+    resetTokenExpiry: Date,
     date: {
         type: Date,
         default: Date.now
