@@ -17,6 +17,23 @@ exports.getSignup = (req, res, next) => {
     });
 }
 
+exports.getResetPassword = (req, res, next) => {
+
+    res.render('auth/resetPassword', {
+        activeLink: '/login',
+        pageTitle: 'Reset Password'
+    });
+
+}
+
+
+exports.postResetPassword = (req, res, next) => {
+
+
+
+}
+
+
 exports.postSignup = (req, res, next) => {
 
     const email = req.body.email.trim();

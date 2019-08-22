@@ -151,6 +151,15 @@ body {
   color: #fff;
 }
 
+.link {
+  color: #069;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
 /* Auth Form */
 .auth-form {
   width: 25rem;
@@ -163,7 +172,7 @@ body {
 }
 
 .auth-form>div {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .auth-form input[type="text"],
@@ -176,6 +185,11 @@ body {
   border: 1px solid #ccc;
 }
 
+.form-flex-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 
 /* Product Form */
