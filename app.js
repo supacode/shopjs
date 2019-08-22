@@ -59,7 +59,10 @@ const authRoutes = require("./routes/auth");
 
 const errorRoutes = require("./controllers/error");
 app.use((req, res, next) => {
-    User.findOne()
+    if (!req.session.user) {
+        return next();
+    }
+    User.findById(req.session.user._id)
         .then(user => {
             req.user = user;
             next();
