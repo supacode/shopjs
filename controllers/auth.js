@@ -21,7 +21,7 @@ exports.getSignup = (req, res, next) => {
 
 exports.getResetPassword = (req, res, next) => {
 
-    res.render('auth/resetPassword', {
+    res.render('auth/reset-password', {
         activeLink: '/login',
         pageTitle: 'Reset Password'
     });
@@ -47,21 +47,14 @@ exports.postResetPassword = (req, res, next) => {
                     // REDIRECT BACK WITH ERROR MESSAGE
                     return res.redirect('/reset-password');
                 }
-
-
                 user.resetToken = token;
-
                 user.resetTokenExpiry = Date.now() + 7200000;
-
-
                 return user.save()
 
             })
             .then(result => {
                 res.redirect('back');
-
                 // SEND RESET EMAIL 
-
             })
             .catch(err => console.log(err));
 
@@ -132,13 +125,44 @@ exports.postLogin = (req, res, next) => {
 
                 }).
             catch(err => console.log(err));
-
-
-
-
         })
         .catch(err => console.log(err));
 }
+
+
+exports.getNewPassword = (req, res, next) => {
+
+    const token = req.params.token;
+
+    User.findOne({
+            resetToken: token,
+            resetTokenExpiry: {
+                $gt: Date.now()
+            }
+        })
+        .then(user => {
+            if (!user) {
+                return res.redirect('/');
+            }
+            res.render('auth/new-password', {
+                pageTitle: 'New Passowrd',
+                activeLink: '/login',
+                user: user._id.toString()
+            });
+        })
+        .catch(err => console.log(err));
+
+
+
+
+}
+exports.postNewPassword = (req, res, next) => {
+
+    console.log(req.body);
+    res.redirect('back');
+
+}
+
 
 exports.postLogout = (req, res, next) => {
     req.session.destroy(err => {
