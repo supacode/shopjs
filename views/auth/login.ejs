@@ -4,11 +4,8 @@
 
 <body>
     <main>
-        <% if (errorMsg){ %>
-        <div class="auth-message">
-            <p class="auth-error"><%= errorMsg %></p>
-        </div>
-        <% } %>
+        <%- include('../inc/error-msg.ejs', { errorMsg }) %>
+
         <form action="/login" method="post" class="auth-form">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 

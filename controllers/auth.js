@@ -18,9 +18,13 @@ exports.getLogin = (req, res, next) => {
 }
 
 exports.getSignup = (req, res, next) => {
+    let errorMsg = req.flash('error');
+    (errorMsg.length) ? errorMsg = errorMsg[0]: errorMsg = null;
+
     res.render('auth/signup', {
         activeLink: '/signup',
-        pageTitle: 'Signup'
+        pageTitle: 'Signup',
+        errorMsg
     });
 }
 
@@ -82,7 +86,10 @@ exports.postSignup = (req, res, next) => {
         .then(userDoc => {
 
             if (userDoc) {
-                return res.redirect('back');
+
+                req.flash('error', 'User already exists with that email.');
+
+                return res.redirect('/signup');
             }
 
             return bcrypt.hash(password, 12)

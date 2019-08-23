@@ -4,6 +4,8 @@
 
 <body>
     <main>
+        <%- include('../inc/error-msg.ejs', { errorMsg }) %>
+
         <form action="/signup" method="post" class="auth-form">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
