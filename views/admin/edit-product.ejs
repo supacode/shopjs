@@ -5,6 +5,7 @@
 <body>
 	<main>
 		<form action="/admin/edit-product" method="post" class="product-form">
+			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 			<div class="form-control">
 				<label for="name"> Product name </label>
 				<input id="name" value="<%= product.name %>" type="text" name="name">
