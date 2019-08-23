@@ -1,3 +1,4 @@
+<% if(lastPage > 1) { %>
 <ul class="pagination">
     <% if (currentPage !== 1 && previousPage !== 1) { %>
     <li><a href="?page=1">1</a></li>
@@ -13,3 +14,4 @@
     <li><a href="?page=<%= lastPage %>"><%= lastPage %></a></li>
     <% } %>
 </ul>
+<%  } %>
