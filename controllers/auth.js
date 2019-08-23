@@ -6,9 +6,14 @@ const User = require('../models/user');
 
 
 exports.getLogin = (req, res, next) => {
+
+    let errorMsg = req.flash('error');
+    (errorMsg.length) ? errorMsg = errorMsg[0]: errorMsg = null;
+
     res.render('auth/login', {
         activeLink: '/login',
-        pageTitle: 'Login'
+        pageTitle: 'Login',
+        errorMsg
     });
 }
 
@@ -106,6 +111,7 @@ exports.postLogin = (req, res, next) => {
         .then(user => {
 
             if (!user) {
+                req.flash('error', 'Invalid E-mail or Password');
                 return res.redirect('/login');
             }
 

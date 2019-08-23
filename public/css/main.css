@@ -205,7 +205,16 @@ body {
   justify-content: space-between;
 }
 
+/* Authentication Messages */
+
+.auth-message .auth-error {
+  color: #c00;
+  padding: 1rem 0;
+}
+
+
 /* Product Form */
+.auth-message,
 .product-form {
   width: 25rem;
   max-width: 90%;

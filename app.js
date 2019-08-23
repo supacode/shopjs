@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const mongoose = require("mongoose");
 const csurf = require('csurf');
+const flash = require('connect-flash');
 const User = require("./models/user");
 const session = require("express-session");
 const MongoStore = require("connect-mongodb-session")(session);
@@ -34,7 +35,7 @@ app.use(
 );
 
 app.use(csrf);
-
+app.use(flash());
 
 app.use((req, res, next) => {
     if (!req.session.user) {
