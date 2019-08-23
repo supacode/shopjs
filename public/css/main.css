@@ -208,8 +208,10 @@ body {
 /* Authentication Messages */
 
 .auth-message .auth-error {
-  color: #c00;
-  padding: 1rem 0;
+  color: #fff;
+  padding: .5rem;
+  margin: 1rem 0;
+  background: #fa7b7b;
 }
 
 
