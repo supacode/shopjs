@@ -199,26 +199,12 @@ body {
   border-color: #069;
 }
 
-.auth-form input.invalid,
-.auth-form input.invalid,
-.auth-form input.invalid {
-  border-color: #fa7b7b;
-}
+
 
 .form-flex-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-/* Authentication Messages */
-
-.auth-message .auth-error {
-  color: #fff;
-  padding: .5rem;
-  margin: 1rem 0;
-  border-radius: 3px;
-  background: #fa7b7b;
 }
 
 
@@ -273,6 +259,30 @@ body {
   text-align: center;
   line-height: 2;
 }
+
+
+/* Authentication Messages */
+
+.auth-message .auth-error {
+  color: #fff;
+  padding: .5rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+  background: #fa7b7b;
+}
+
+.auth-form input.invalid,
+.auth-form input.invalid,
+.auth-form input.invalid,
+.auth-form textarea.invalid,
+.product-form input.invalid,
+.product-form input.invalid,
+.product-form input.invalid,
+.product-form textarea.invalid {
+  border-color: #fa7b7b;
+}
+
+
 
 /* Cart Items */
 .cart__item-list {

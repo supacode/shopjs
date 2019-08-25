@@ -6,9 +6,11 @@ const adminController = require('../controllers/admin');
 
 const isAuth = require('../middleware/auth');
 
+const validator = require('../validators/admin');
+
 router.get('/add-product', isAuth, adminController.getAddProduct);
 
-router.post('/add-product', isAuth, adminController.postAddProduct);
+router.post('/add-product', isAuth, validator.addProduct, adminController.postAddProduct);
 
 router.get('/products', isAuth, adminController.getProducts);
 

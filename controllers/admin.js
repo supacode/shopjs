@@ -1,9 +1,25 @@
+const {
+	validationResult
+} = require('express-validator');
+
 const Product = require("../models/product");
 
+
 exports.getAddProduct = (req, res, next) => {
+
+
+
 	res.render("admin/add-product", {
 		pageTitle: "Add Product",
-		activeLink: "/admin/add-product"
+		activeLink: "/admin/add-product",
+		oldValues: {
+			name: '',
+			price: '',
+			description: '',
+			imageUrl: ''
+		},
+		errorMsg: '',
+		validationErrors: []
 	});
 };
 
@@ -14,7 +30,25 @@ exports.postAddProduct = (req, res, next) => {
 	const price = post.price;
 	const description = post.description;
 	const imageUrl = post.imageUrl;
-	const userId = req.user;
+
+	const errors = validationResult(req);
+
+
+	if (!errors.isEmpty()) {
+		return res.status(422).render("admin/add-product", {
+			pageTitle: "Add Product",
+			activeLink: "/admin/add-product",
+			oldValues: {
+				name,
+				price,
+				description,
+				imageUrl
+			},
+			errorMsg: errors.array()[0].msg,
+			validationErrors: errors.array()
+		});
+	}
+
 
 	const product = new Product({
 		name,

@@ -5,7 +5,7 @@ const {
 
 const User = require('../models/user');
 
-const PASSWORD_MIN_LENGTH = 6;
+const USER_PASSWORD_MIN_LENGTH = 6;
 
 exports.signUp = [
     check('email').isEmail().withMessage('Enter a valid E-mail')
@@ -21,7 +21,7 @@ exports.signUp = [
         });
     }),
     body('password').isLength({
-        min: PASSWORD_MIN_LENGTH
+        min: USER_PASSWORD_MIN_LENGTH
     }).withMessage('Password must be more than 5 characters'),
     body('confirmPassword').custom((value, {
         req
@@ -31,9 +31,13 @@ exports.signUp = [
         }
         return true;
     })
-]
+];
 
 exports.login = [
     check('email').isEmail()
     .withMessage('Enter a valid E-mail'),
+    check('password').isLength({
+        min: USER_PASSWORD_MIN_LENGTH
+    })
+    .withMessage('Password has to be valid.')
 ];
