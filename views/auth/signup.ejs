@@ -11,17 +11,21 @@
 
             <div class="form-control">
                 <label for="email"> E-mail </label>
-                <input id="email" value="<%= oldValues.email %>" type="email" name="email">
+                <input id="email" value="<%= oldValues.email %>" type="email" name="email"
+                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>">
             </div>
 
             <div class="form-control">
                 <label for="password"> Password </label>
-                <input id="password" value="<%= oldValues.password %>" type="password" name="password">
+                <input id="password" value="<%= oldValues.password %>" type="password" name="password"
+                    class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>">
             </div>
 
             <div class="form-control">
                 <label for="password"> Confirm Password </label>
-                <input id="confirmPassword" value="<%= oldValues.password %>" type="password" name="confirmPassword">
+                <input id="confirmPassword" value="<%= oldValues.confirmPassword %>" type="password"
+                    name="confirmPassword"
+                    class="<%= validationErrors.find(e => e.param === 'confirmPassword') ? 'invalid' : '' %>">
             </div>
 
             <div><button class="btn" type="submit">Create Account</button></div>

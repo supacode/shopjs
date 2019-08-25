@@ -199,6 +199,12 @@ body {
   border-color: #069;
 }
 
+.auth-form input.invalid,
+.auth-form input.invalid,
+.auth-form input.invalid {
+  border-color: #fa7b7b;
+}
+
 .form-flex-wrap {
   display: flex;
   align-items: center;

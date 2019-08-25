@@ -6,17 +6,19 @@
     <main>
         <%- include('../inc/error-msg.ejs', { errorMsg }) %>
 
-        <form action="/login" method="post" class="auth-form">
+        <form action="/login" method="post" class="auth-form" novalidate>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
             <div class="form-control">
                 <label for="email"> E-mail </label>
-                <input id="email" type="email" name="email">
+                <input required id="email" value="<%= oldValues.email %>" type="email" name="email"
+                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>">
             </div>
 
             <div class="form-control">
                 <label for="password"> Password </label>
-                <input id="password" type="password" name="password">
+                <input required id="password" value="<%= oldValues.password %>" type="password" name="password"
+                    class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>">
             </div>
             <div class="form-flex-wrap">
                 <button class="btn" type="submit">Login</button>

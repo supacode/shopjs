@@ -17,7 +17,12 @@ exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         activeLink: '/login',
         pageTitle: 'Login',
-        errorMsg
+        errorMsg,
+        validationErrors: [],
+        oldValues: {
+            email: '',
+            password: ''
+        }
     });
 }
 
@@ -33,7 +38,8 @@ exports.getSignup = (req, res, next) => {
             email: '',
             password: '',
             confirmPassword: ''
-        }
+        },
+        validationErrors: []
     });
 }
 
@@ -44,7 +50,6 @@ exports.postSignup = (req, res, next) => {
 
     const errors = validationResult(req);
 
-    console.log(errors.array());
     if (!errors.isEmpty()) {
         return res.status(422).render('auth/signup', {
             activeLink: '/signup',
@@ -54,7 +59,8 @@ exports.postSignup = (req, res, next) => {
                 email,
                 password,
                 confirmPassword: req.body.confirmPassword
-            }
+            },
+            validationErrors: errors.array()
         });
     }
 
@@ -130,15 +136,39 @@ exports.postLogin = (req, res, next) => {
 
     const email = req.body.email;
     const password = req.body.password;
+    const errors = validationResult(req);
+
+
+
+    if (!errors.isEmpty()) {
+        return res.status(422).render('auth/login', {
+            activeLink: '/login',
+            pageTitle: 'Login',
+            errorMsg: (errors.array()[0].msg),
+            validationErrors: errors.array(),
+            oldValues: {
+                email,
+                password,
+            }
+        });
+    }
 
     User.findOne({
-            email: email
+            email
         })
         .then(user => {
 
             if (!user) {
-                req.flash('error', 'Invalid E-mail or Password');
-                return res.redirect('/login');
+                return res.status(422).render('auth/login', {
+                    activeLink: '/login',
+                    pageTitle: 'Login',
+                    errorMsg: (errors.array()[0].msg),
+                    validationErrors: errors.array(),
+                    oldValues: {
+                        email,
+                        password,
+                    }
+                });
             }
 
             bcrypt.compare(password, user.password)
@@ -153,7 +183,17 @@ exports.postLogin = (req, res, next) => {
                         });
 
                     }
-                    return res.redirect('/login');
+
+                    res.status(422).render('auth/login', {
+                        activeLink: '/login',
+                        pageTitle: 'Login',
+                        errorMsg: 'Invalid E-mail/Password combination.',
+                        validationErrors: [],
+                        oldValues: {
+                            email,
+                            password,
+                        }
+                    });
 
                 }).
             catch(err => console.log(err));
