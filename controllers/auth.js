@@ -2,6 +2,10 @@ const crypto = require('crypto');
 
 const bcrypt = require('bcryptjs');
 
+const {
+    validationResult
+} = require('express-validator');
+
 const User = require('../models/user');
 
 
@@ -24,15 +28,62 @@ exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
         activeLink: '/signup',
         pageTitle: 'Signup',
-        errorMsg
+        errorMsg,
+        oldValues: {
+            email: '',
+            password: '',
+            confirmPassword: ''
+        }
     });
 }
 
+exports.postSignup = (req, res, next) => {
+
+    const email = req.body.email.trim();
+    const password = req.body.password;
+
+    const errors = validationResult(req);
+
+    console.log(errors.array());
+    if (!errors.isEmpty()) {
+        return res.status(422).render('auth/signup', {
+            activeLink: '/signup',
+            pageTitle: 'Signup',
+            errorMsg: errors.array()[0].msg,
+            oldValues: {
+                email,
+                password,
+                confirmPassword: req.body.confirmPassword
+            }
+        });
+    }
+
+    bcrypt.hash(password, 12)
+        .then(hashedPassword => {
+            const user = new User({
+                email,
+                password: hashedPassword
+            });
+
+            return user.save();
+        })
+        .then(() => res.redirect('/login'))
+        .catch(err => console.log(err));
+
+}
+
+
+
+
+
 exports.getResetPassword = (req, res, next) => {
+    let errorMsg = req.flash('error');
+    (errorMsg.length) ? errorMsg = errorMsg[0]: errorMsg = null;
 
     res.render('auth/reset-password', {
         activeLink: '/login',
-        pageTitle: 'Reset Password'
+        pageTitle: 'Reset Password',
+        errorMsg
     });
 
 }
@@ -40,7 +91,8 @@ exports.getResetPassword = (req, res, next) => {
 
 exports.postResetPassword = (req, res, next) => {
 
-    const email = req.body.email;
+    const email = req.body.email.trim();
+
     crypto.randomBytes(32, (err, buffer) => {
         if (err) {
             console.log(err);
@@ -53,7 +105,7 @@ exports.postResetPassword = (req, res, next) => {
                 email
             }).then(user => {
                 if (!user) {
-                    // REDIRECT BACK WITH ERROR MESSAGE
+                    req.flash('error', 'No user found with the E-mail you entered.');
                     return res.redirect('/reset-password');
                 }
                 user.resetToken = token;
@@ -62,7 +114,7 @@ exports.postResetPassword = (req, res, next) => {
 
             })
             .then(result => {
-                res.redirect('back');
+                console.log(result);
                 // SEND RESET EMAIL 
             })
             .catch(err => console.log(err));
@@ -73,39 +125,6 @@ exports.postResetPassword = (req, res, next) => {
 
 }
 
-
-exports.postSignup = (req, res, next) => {
-
-    const email = req.body.email.trim();
-    const password = req.body.password;
-    const confirmPassword = req.body.confirmPassword;
-
-    User.findOne({
-            email
-        })
-        .then(userDoc => {
-
-            if (userDoc) {
-
-                req.flash('error', 'User already exists with that email.');
-
-                return res.redirect('/signup');
-            }
-
-            return bcrypt.hash(password, 12)
-                .then(hashedPassword => {
-                    const user = new User({
-                        email,
-                        password: hashedPassword
-                    });
-
-                    return user.save();
-                })
-                .then(() => res.redirect('/login'))
-        })
-        .catch(err => console.log(err));
-
-}
 
 exports.postLogin = (req, res, next) => {
 
