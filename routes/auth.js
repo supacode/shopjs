@@ -12,7 +12,6 @@ router.post('/login', validator.login, authController.postLogin);
 
 router.post('/logout', authController.postLogout);
 
-// Signup Routes
 router.get('/signup', authController.getSignup);
 
 router.post('/signup', validator.signUp, authController.postSignup);

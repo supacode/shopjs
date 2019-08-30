@@ -30,7 +30,9 @@ exports.getIndex = (req, res, next) => {
 			}
 
 		)
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw new Error(err);
+		});
 }
 
 
@@ -59,7 +61,9 @@ exports.getProducts = (req, res, next) => {
 				lastPage: Math.ceil(totalProducts / ITEMS_PER_PAGE)
 			})
 		})
-		.catch(err => console.log(err))
+		.catch(err => {
+			throw new Error(err);
+		})
 }
 
 
@@ -75,7 +79,9 @@ exports.getProduct = (req, res, next) => {
 			});
 
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw new Error(err);
+		});
 
 }
 
@@ -87,7 +93,9 @@ exports.postCartDeleteProduct = (req, res, next) => {
 		.then(result => {
 			res.redirect('back');
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw new Error(err);
+		});
 };
 
 
@@ -104,7 +112,9 @@ exports.getCart = (req, res, next) => {
 				isAuth: req.session.isLoggedIn
 			})
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw new Error(err);
+		});
 }
 
 
@@ -116,7 +126,9 @@ exports.postCart = (req, res, next) => {
 			return req.user.addToCart(product);
 		})
 		.then(() => res.redirect('/cart'))
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw new Error(err);
+		});
 
 }
 
@@ -132,7 +144,9 @@ exports.getOrders = (req, res, next) => {
 				orders
 			});
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw new Error(err);
+		});
 };
 
 exports.postOrder = (req, res, next) => {
@@ -163,7 +177,9 @@ exports.postOrder = (req, res, next) => {
 		})
 		.then(() => req.user.emptyCart())
 		.then(() => res.redirect('/orders'))
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw new Error(err);
+		});
 }
 
 exports.getCheckout = (req, res, next) => {
@@ -171,6 +187,5 @@ exports.getCheckout = (req, res, next) => {
 		products,
 		pageTitle: 'Checkout',
 		activeLink: '/checkout'
-
 	})
 }

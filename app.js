@@ -10,6 +10,9 @@ const session = require("express-session");
 const MongoStore = require("connect-mongodb-session")(session);
 const MONGO_URI = "mongodb://localhost/shop";
 
+const helpers = require('./util/helpers');
+
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
     bodyParser.urlencoded({
@@ -43,10 +46,15 @@ app.use((req, res, next) => {
     }
     User.findById(req.session.user._id)
         .then(user => {
+            if (!user) {
+                return next();
+            }
             req.user = user;
             next();
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            throw new Error(err);
+        });
 });
 
 app.use((req, res, next) => {
@@ -63,7 +71,8 @@ const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
 
-const errorRoutes = require("./controllers/error");
+const errorController = require("./controllers/error");
+
 app.use((req, res, next) => {
     if (!req.session.user) {
         return next();
@@ -76,10 +85,15 @@ app.use((req, res, next) => {
         .catch(err => console.log(err));
 });
 
+app.get('/500', errorController.get500);
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
-app.use(errorRoutes.get404);
+app.use(errorController.get404);
+
+app.use(helpers.errorPage);
+
+
 
 mongoose
     .connect(MONGO_URI, {
