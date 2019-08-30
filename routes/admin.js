@@ -10,13 +10,13 @@ const validator = require('../validators/admin');
 
 router.get('/add-product', isAuth, adminController.getAddProduct);
 
-router.post('/add-product', isAuth, validator.addProduct, adminController.postAddProduct);
+router.post('/add-product', isAuth, validator.product, adminController.postAddProduct);
 
 router.get('/products', isAuth, adminController.getProducts);
 
 router.get('/edit-product/:id', isAuth, adminController.getEditProduct);
 
-router.post('/edit-product', isAuth, adminController.postEditProduct);
+router.post('/edit-product', isAuth, validator.product, adminController.postEditProduct);
 
 router.post('/delete-product', isAuth, adminController.postDeleteProduct);
 

@@ -30,7 +30,7 @@ exports.postAddProduct = (req, res, next) => {
 	const price = post.price;
 	const description = post.description;
 	const imageUrl = post.imageUrl;
-
+	const userId = req.user._id;
 	const errors = validationResult(req);
 
 
@@ -67,12 +67,18 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getEditProduct = (req, res, next) => {
 	const id = req.params.id;
+
+	let errorMsg = req.flash('error');
+	(errorMsg.length) ? errorMsg = errorMsg[0]: errorMsg = null;
+
 	Product.findById(id)
 		.then(product => {
 			res.render("admin/edit-product", {
 				pageTitle: "Edit Product",
 				activeLink: "/admin/edit-product",
-				product
+				product,
+				errorMsg,
+				validationErrors: []
 			});
 		})
 		.catch(err => console.log(err));
@@ -84,6 +90,25 @@ exports.postEditProduct = (req, res, next) => {
 	const price = req.body.price;
 	const description = req.body.description;
 	const imageUrl = req.body.imageUrl;
+
+
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		return res.status(422).render("admin/edit-product", {
+			pageTitle: "Edit Product",
+			activeLink: "/admin/edit-product",
+			product: {
+				_id: id,
+				name,
+				price,
+				description,
+				imageUrl
+			},
+			errorMsg: errors.array()[0].msg,
+			validationErrors: errors.array()
+		});
+	}
 
 
 	Product.findOne({

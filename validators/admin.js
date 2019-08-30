@@ -4,7 +4,7 @@ const {
 } = require('express-validator');
 
 
-exports.addProduct = [
+exports.product = [
     body('name').trim().isLength({
         min: 5
     }).withMessage('Product name is required'),

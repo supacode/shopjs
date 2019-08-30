@@ -4,6 +4,9 @@
 
 <body>
 	<main>
+
+		<%- include('../inc/error-msg.ejs', { errorMsg }) %>
+
 		<form action="/admin/edit-product" method="post" class="product-form">
 			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 			<div class="form-control">
