@@ -213,18 +213,37 @@ exports.getReceipt = (req, res, next) => {
 			const receiptName = 'receipt-' + orderId + '.pdf';
 			const receiptPath = path.join('data', 'receipts', receiptName);
 
-			const pdfDoc = new PDFdocument();
+			const pdf = new PDFdocument();
 			res.setHeader('Content-Type', 'application/pdf');
-			res.setHeader('Content-Disposition', 'inline;filename="' + receiptName + '"');
-			pdfDoc.pipe(fs.createWriteStream(receiptPath));
-			pdfDoc.pipe(res);
+			res.setHeader('Content-Disposition', 'attachment;filename="' + receiptName + '"');
+			pdf.pipe(fs.createWriteStream(receiptPath));
+			pdf.pipe(res);
+
+			pdf.fontSize(20).text('Receipt');
+			pdf.text('__________________________________________');
+			pdf.text(' ');
 
 
-			pdfDoc.text('Hello World');
+			let totalPrice = 0;
 
-			pdfDoc.end();
+			order.products.forEach(prod => {
 
+				totalPrice += prod.quantity * prod.product.price;
 
+				pdf.fontSize(14).text(
+					prod.product.name +
+					' - Qty: ' +
+					prod.quantity +
+					' x  $' +
+					prod.product.price
+				);
+
+			});
+
+			pdf.text('___');
+			pdf.text(' ');
+			pdf.fontSize(18).text('Total: $' + totalPrice);
+			pdf.end();
 
 		});
 
