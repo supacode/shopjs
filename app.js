@@ -5,12 +5,33 @@ const app = express();
 const mongoose = require("mongoose");
 const csurf = require('csurf');
 const flash = require('connect-flash');
+const multer = require('multer');
+
 const User = require("./models/user");
 const session = require("express-session");
 const MongoStore = require("connect-mongodb-session")(session);
 const MONGO_URI = "mongodb://localhost/shop";
 
-const helpers = require('./util/helpers');
+
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, (new Date()).toISOString() + '-' + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype == 'image/png' ||
+        file.mimetype == 'image/jpeg' ||
+        file.mimetype == 'image/jpg') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
 
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -19,6 +40,11 @@ app.use(
         extended: false
     })
 );
+
+app.use(multer({
+    storage: fileStorage,
+    fileFilter
+}).single('image'));
 
 const store = new MongoStore({
     uri: MONGO_URI,
@@ -90,9 +116,6 @@ app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 app.use(errorController.get404);
-
-app.use(helpers.errorPage);
-
 
 
 mongoose

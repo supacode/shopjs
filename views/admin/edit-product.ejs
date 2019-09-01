@@ -7,7 +7,7 @@
 
 		<%- include('../inc/error-msg.ejs', { errorMsg }) %>
 
-		<form action="/admin/edit-product" method="post" class="product-form">
+		<form action="/admin/edit-product" method="post" enctype="multipart/form-data" class="product-form">
 			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 			<div class="form-control">
 				<label for="name"> Product name </label>
@@ -15,8 +15,8 @@
 			</div>
 
 			<div class="form-control">
-				<label for="imageUrl"> Image URL </label>
-				<input type="text" id="imageUrl" value="<%= product.imageUrl %>" name="imageUrl">
+				<label for="image"> Image </label>
+				<input type="file" id="image" name="image">
 			</div>
 
 			<div class="form-control">

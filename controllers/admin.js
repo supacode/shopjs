@@ -25,13 +25,29 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
 
-	const post = req.body;
-	const name = post.name;
-	const price = post.price;
-	const description = post.description;
-	const imageUrl = post.imageUrl;
+	const name = req.body.name;
+	const price = req.body.price;
+	const description = req.body.description;
+	const image = req.file;
 	const userId = req.user._id;
+
+	if (!image) {
+		return res.status(422).render("admin/add-product", {
+			pageTitle: "Add Product",
+			activeLink: "/admin/add-product",
+			oldValues: {
+				name,
+				price,
+				description,
+				imageUrl
+			},
+			errorMsg: 'Attached file must be an image.',
+			validationErrors: []
+		});
+	}
+	const imageUrl = image.path;
 	const errors = validationResult(req);
+
 
 
 	if (!errors.isEmpty()) {
@@ -62,7 +78,9 @@ exports.postAddProduct = (req, res, next) => {
 		.then(product => {
 			res.redirect(`/admin/products#${product._id}`);
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			throw new Error(err);
+		});
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -89,9 +107,7 @@ exports.postEditProduct = (req, res, next) => {
 	const name = req.body.name;
 	const price = req.body.price;
 	const description = req.body.description;
-	const imageUrl = req.body.imageUrl;
-
-
+	const image = req.file;
 	const errors = validationResult(req);
 
 	if (!errors.isEmpty()) {
@@ -102,8 +118,7 @@ exports.postEditProduct = (req, res, next) => {
 				_id: id,
 				name,
 				price,
-				description,
-				imageUrl
+				description
 			},
 			errorMsg: errors.array()[0].msg,
 			validationErrors: errors.array()
@@ -122,7 +137,10 @@ exports.postEditProduct = (req, res, next) => {
 			product.name = name;
 			product.price = price;
 			product.description = description;
-			product.imageUrl = imageUrl;
+			if (image) {
+				product.imageUrl = image.path;
+			}
+			console.log(typeof image);
 			return product.save();
 		})
 		.then(() => {

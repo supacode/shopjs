@@ -230,6 +230,7 @@ body {
 
 .product-form input[type="text"],
 .product-form input[type="number"],
+.product-form input[type="file"],
 .product-form textarea {
   border: 1p solid #ccc;
   padding: 7px 5px;

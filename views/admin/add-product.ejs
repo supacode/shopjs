@@ -7,7 +7,7 @@
 
 		<%- include('../inc/error-msg.ejs', { errorMsg }) %>
 
-		<form action="/admin/add-product" method="post" class="product-form">
+		<form action="/admin/add-product" enctype="multipart/form-data" method="post" class="product-form">
 			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
 			<div class="form-control">
@@ -17,9 +17,8 @@
 			</div>
 
 			<div class="form-control">
-				<label for="imageUrl"> Image URL </label>
-				<input type="text" id="imageUrl" name="imageUrl" value="<%= oldValues.imageUrl %>"
-					class="<%= validationErrors.find(e => e.param === 'imageUrl') ? 'invalid' : '' %>">
+				<label for="image"> Image </label>
+				<input type="file" id="image" name="image">
 			</div>
 
 			<div class="form-control">
