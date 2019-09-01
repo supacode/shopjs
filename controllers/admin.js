@@ -140,7 +140,6 @@ exports.postEditProduct = (req, res, next) => {
 			if (image) {
 				product.imageUrl = image.path;
 			}
-			console.log(typeof image);
 			return product.save();
 		})
 		.then(() => {
