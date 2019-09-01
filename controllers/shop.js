@@ -1,3 +1,9 @@
+const fs = require('fs');
+const path = require('path');
+
+
+const PDFdocument = require('pdfkit');
+
 const Product = require('../models/product');
 const Order = require('../models/order');
 const ITEMS_PER_PAGE = 12;
@@ -188,4 +194,38 @@ exports.getCheckout = (req, res, next) => {
 		pageTitle: 'Checkout',
 		activeLink: '/checkout'
 	})
+}
+
+
+exports.getReceipt = (req, res, next) => {
+
+	const orderId = req.params.orderId;
+
+	Order.findOne({
+			_id: orderId,
+			'user.id': req.user._id
+		})
+		.then(order => {
+			if (!order) {
+				return res.redirect('/');
+			}
+
+			const receiptName = 'receipt-' + orderId + '.pdf';
+			const receiptPath = path.join('data', 'receipts', receiptName);
+
+			const pdfDoc = new PDFdocument();
+			res.setHeader('Content-Type', 'application/pdf');
+			res.setHeader('Content-Disposition', 'inline;filename="' + receiptName + '"');
+			pdfDoc.pipe(fs.createWriteStream(receiptPath));
+			pdfDoc.pipe(res);
+
+
+			pdfDoc.text('Hello World');
+
+			pdfDoc.end();
+
+
+
+		});
+
 }

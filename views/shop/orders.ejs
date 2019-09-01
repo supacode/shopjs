@@ -17,6 +17,8 @@
                     <li class="orders__products-item">
                         <%= p.product.name %>
                         (<%= p.quantity %>)
+                        -
+                        <a href="orders/<%= order._id %>">Invoice</a>
                     </li>
                     <% }); %>
                 </ul>
