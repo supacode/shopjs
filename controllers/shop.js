@@ -116,7 +116,8 @@ exports.getCart = (req, res, next) => {
 				pageTitle: 'Cart',
 				products: user.cart.items,
 				isAuth: req.session.isLoggedIn
-			})
+			});
+			console.log(user.cart.items);
 		})
 		.catch(err => {
 			console.log(err);
