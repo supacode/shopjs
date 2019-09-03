@@ -1,4 +1,4 @@
 node_modules
 images
-data/receipts
+/data/receipts
 /util/db.js
