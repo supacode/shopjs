@@ -80,8 +80,7 @@ exports.getProduct = (req, res, next) => {
 			res.render('shop/product-detail', {
 				product,
 				pageTitle: product.name,
-				activeLink: '/products',
-				isAuth: req.session.isLoggedIn
+				activeLink: '/products'
 			});
 
 		})
@@ -114,10 +113,8 @@ exports.getCart = (req, res, next) => {
 			res.render('shop/cart', {
 				activeLink: '/cart',
 				pageTitle: 'Cart',
-				products: user.cart.items,
-				isAuth: req.session.isLoggedIn
+				products: user.cart.items
 			});
-			console.log(user.cart.items);
 		})
 		.catch(err => {
 			console.log(err);
@@ -156,6 +153,35 @@ exports.getOrders = (req, res, next) => {
 		});
 };
 
+exports.getCheckout = (req, res, next) => {
+	req.user
+		.populate('cart.items.productId')
+		.execPopulate()
+		.then(user => {
+			let totalSum = 0;
+			const products = user.cart.items;
+			products.forEach(prod => {
+				totalSum += prod.quantity * prod.productId.price;
+			});
+			res.render('shop/checkout', {
+				activeLink: '/checkout',
+				pageTitle: 'Checkout',
+				products,
+				totalSum
+			});
+		})
+		.catch(err => {
+			console.log(err);
+		});
+
+
+
+
+
+
+
+}
+
 exports.postOrder = (req, res, next) => {
 
 	req.user
@@ -187,14 +213,6 @@ exports.postOrder = (req, res, next) => {
 		.catch(err => {
 			console.log(err);
 		});
-}
-
-exports.getCheckout = (req, res, next) => {
-	res.render('shop/checkout', {
-		products,
-		pageTitle: 'Checkout',
-		activeLink: '/checkout'
-	})
 }
 
 
