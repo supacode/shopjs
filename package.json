@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon server.js"
   },
   "author": "@supacode",
   "license": "ISC",
@@ -29,7 +29,6 @@
     "stripe": "^7.8.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.5.0",
@@ -38,6 +37,7 @@
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
+    "nodemon": "^1.19.4",
     "parcel-bundler": "^1.12.4"
   }
 }
