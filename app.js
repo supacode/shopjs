@@ -8,7 +8,11 @@ const multer = require('multer');
 const User = require('./models/user');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
-const connectDB = require('./util/connectDb');
+const dotenv = require('dotenv');
+
+dotenv.config({
+  path: 'config.env'
+});
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -47,7 +51,7 @@ app.use(
 );
 
 const store = new MongoStore({
-  uri: 'mongodb://localhost:27017/shop',
+  uri: process.env.MONGO_URI,
   collection: 'sessions'
 });
 

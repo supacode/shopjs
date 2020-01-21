@@ -3,8 +3,6 @@ const connectDb = require('./util/connectDb');
 
 connectDb();
 
-const PORT = 3000;
-
-app.listen(PORT, () => {
-  console.log(`App listening on ${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`App listening on ${process.env.PORT}`);
 });
