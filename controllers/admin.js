@@ -136,18 +136,17 @@ exports.postEditProduct = async (req, res, next) => {
   return res.redirect(`/admin/products#${productId}`);
 };
 
-exports.getProducts = (req, res, next) => {
-  Product.find({
-    userId: req.user._id
-  })
-    .then(products => {
-      res.render('admin/products', {
-        products,
-        pageTitle: 'Admin Products',
-        activeLink: '/admin/products'
-      });
-    })
-    .catch(err => console.log(err));
+exports.getProducts = async (req, res, next) => {
+  try {
+    const products = await Product.find({ userId: req.user._id });
+    res.render('admin/products', {
+      products,
+      pageTitle: 'Admin Products',
+      activeLink: '/admin/products'
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 exports.postDeleteProduct = (req, res, next) => {
   const id = req.body.productId;
