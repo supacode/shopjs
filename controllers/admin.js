@@ -148,22 +148,20 @@ exports.getProducts = async (req, res, next) => {
     throw new Error(err);
   }
 };
-exports.postDeleteProduct = (req, res, next) => {
-  const id = req.body.productId;
 
-  Product.findOne({
-    _id: id,
+exports.postDeleteProduct = async (req, res, next) => {
+  const { productId } = req.body;
+  const product = await Product.findOne({
+    _id: productId,
     userId: req.user._id
-  })
-    .then(product => {
-      fileHelper.deleteFile(product.imageUrl);
-      return Product.deleteOne({
-        _id: id,
-        userId: req.user._id
-      });
-    })
-    .then(() => {
-      res.redirect('/admin/products');
-    })
-    .catch(err => console.log(err));
+  });
+
+  fileHelper.deleteFile(product.imageUrl);
+
+  await Product.deleteOne({
+    _id: productId,
+    userId: req.user._id
+  });
+
+  return res.redirect('/admin/products');
 };
