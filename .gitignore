@@ -1,4 +1,4 @@
 /node_modules
 images
 /data/receipts
-/util/db.js
+config.env

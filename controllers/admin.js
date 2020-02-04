@@ -1,186 +1,170 @@
-const {
-	validationResult
-} = require('express-validator');
+const { validationResult } = require('express-validator');
 
 const fileHelper = require('../util/file');
-
-const Product = require("../models/product");
-
+const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-
-
-
-	res.render("admin/add-product", {
-		pageTitle: "Add Product",
-		activeLink: "/admin/add-product",
-		oldValues: {
-			name: '',
-			price: '',
-			description: '',
-			imageUrl: ''
-		},
-		errorMsg: '',
-		validationErrors: []
-	});
+  res.render('admin/add-product', {
+    pageTitle: 'Add Product',
+    activeLink: '/admin/add-product',
+    oldValues: {
+      name: '',
+      price: '',
+      description: '',
+      imageUrl: ''
+    },
+    errorMsg: '',
+    validationErrors: []
+  });
 };
 
-exports.postAddProduct = (req, res, next) => {
+exports.postAddProduct = async (req, res, next) => {
+  const { name, price, description } = req.body;
+  const image = req.file;
+  const userId = req.user._id;
 
-	const name = req.body.name;
-	const price = req.body.price;
-	const description = req.body.description;
-	const image = req.file;
-	const userId = req.user._id;
+  if (!image) {
+    return res.status(422).render('admin/add-product', {
+      pageTitle: 'Add Product',
+      activeLink: '/admin/add-product',
+      oldValues: {
+        name,
+        price,
+        description,
+        imageUrl
+      },
+      errorMsg: 'Attached file must be an image.',
+      validationErrors: []
+    });
+  }
 
-	if (!image) {
-		return res.status(422).render("admin/add-product", {
-			pageTitle: "Add Product",
-			activeLink: "/admin/add-product",
-			oldValues: {
-				name,
-				price,
-				description,
-				imageUrl
-			},
-			errorMsg: 'Attached file must be an image.',
-			validationErrors: []
-		});
-	}
+  const imageUrl = image.path;
+  const errors = validationResult(req);
 
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/add-product', {
+      pageTitle: 'Add Product',
+      activeLink: '/admin/add-product',
+      oldValues: {
+        name,
+        price,
+        description,
+        imageUrl
+      },
+      errorMsg: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
 
-	const imageUrl = image.path;
-	const errors = validationResult(req);
+  const product = new Product({
+    name,
+    price,
+    description,
+    imageUrl,
+    userId
+  });
 
-	if (!errors.isEmpty()) {
-		return res.status(422).render("admin/add-product", {
-			pageTitle: "Add Product",
-			activeLink: "/admin/add-product",
-			oldValues: {
-				name,
-				price,
-				description,
-				imageUrl
-			},
-			errorMsg: errors.array()[0].msg,
-			validationErrors: errors.array()
-		});
-	}
-
-
-	const product = new Product({
-		name,
-		price,
-		description,
-		imageUrl,
-		userId
-	});
-
-	product.save()
-		.then(product => {
-			res.redirect(`/admin/products#${product._id}`);
-		})
-		.catch(err => {
-			throw new Error(err);
-		});
+  try {
+    const newProduct = await product.save();
+    res.redirect(`/admin/products#${newProduct._id}`);
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
-exports.getEditProduct = (req, res, next) => {
-	const id = req.params.id;
+exports.getEditProduct = async (req, res, next) => {
+  const { id } = req.params;
 
-	let errorMsg = req.flash('error');
-	(errorMsg.length) ? errorMsg = errorMsg[0]: errorMsg = null;
+  let errorMsg = req.flash('error');
 
-	Product.findById(id)
-		.then(product => {
-			res.render("admin/edit-product", {
-				pageTitle: "Edit Product",
-				activeLink: "/admin/edit-product",
-				product,
-				errorMsg,
-				validationErrors: []
-			});
-		})
-		.catch(err => console.log(err));
+  if (errorMsg.length > 0) {
+    errorMsg = errorMsg[0];
+  } else {
+    errorMsg = null;
+  }
+
+  try {
+    const product = await Product.findById(id);
+    res.render('admin/edit-product', {
+      pageTitle: 'Edit Product',
+      activeLink: '/admin/edit-product',
+      product,
+      errorMsg,
+      validationErrors: []
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
-exports.postEditProduct = (req, res, next) => {
-	const id = req.body.productId;
-	const name = req.body.name;
-	const price = req.body.price;
-	const description = req.body.description;
-	const image = req.file;
-	const errors = validationResult(req);
+exports.postEditProduct = async (req, res, next) => {
+  const { productId, name, price, description } = req.body;
+  const image = req.file;
+  const errors = validationResult(req);
 
-	if (!errors.isEmpty()) {
-		return res.status(422).render("admin/edit-product", {
-			pageTitle: "Edit Product",
-			activeLink: "/admin/edit-product",
-			product: {
-				_id: id,
-				name,
-				price,
-				description
-			},
-			errorMsg: errors.array()[0].msg,
-			validationErrors: errors.array()
-		});
-	}
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/edit-product', {
+      pageTitle: 'Edit Product',
+      activeLink: '/admin/edit-product',
+      product: {
+        _id: productId,
+        name,
+        price,
+        description
+      },
+      errorMsg: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
 
+  const product = await Product.findOne({
+    _id: productId,
+    userId: req.user._id
+  });
 
-	Product.findOne({
-			_id: id,
-			userId: req.user._id
-		})
-		.then(product => {
-			if (!product) {
-				return res.redirect('/admin/products')
-			}
-			product.name = name;
-			product.price = price;
-			product.description = description;
-			if (image) {
-				fileHelper.deleteFile(product.imageUrl);
-				product.imageUrl = image.path;
-			}
-			return product.save();
-		})
-		.then(() => {
-			res.redirect(`/admin/products#${id}`);
-		})
-		.catch(err => console.log(err));
+  product.name = name;
+  product.price = price;
+  product.description = description;
+
+  if (image) {
+    fileHelper.deleteFile(product.imageUrl);
+    product.imageUrl = image.path;
+  }
+
+  await product.save();
+
+  return res.redirect(`/admin/products#${productId}`);
 };
 
 exports.getProducts = (req, res, next) => {
-	Product.find({
-			userId: req.user._id
-		})
-		.then(products => {
-			res.render("admin/products", {
-				products,
-				pageTitle: "Admin Products",
-				activeLink: "/admin/products"
-			});
-		})
-		.catch(err => console.log(err));
+  Product.find({
+    userId: req.user._id
+  })
+    .then(products => {
+      res.render('admin/products', {
+        products,
+        pageTitle: 'Admin Products',
+        activeLink: '/admin/products'
+      });
+    })
+    .catch(err => console.log(err));
 };
 exports.postDeleteProduct = (req, res, next) => {
-	const id = req.body.productId;
+  const id = req.body.productId;
 
-	Product.findOne({
-			_id: id,
-			userId: req.user._id
-		})
-		.then(product => {
-			fileHelper.deleteFile(product.imageUrl);
-			return Product.deleteOne({
-				_id: id,
-				userId: req.user._id
-			})
-		})
-		.then(() => {
-			res.redirect("/admin/products");
-		})
-		.catch(err => console.log(err));
-
+  Product.findOne({
+    _id: id,
+    userId: req.user._id
+  })
+    .then(product => {
+      fileHelper.deleteFile(product.imageUrl);
+      return Product.deleteOne({
+        _id: id,
+        userId: req.user._id
+      });
+    })
+    .then(() => {
+      res.redirect('/admin/products');
+    })
+    .catch(err => console.log(err));
 };

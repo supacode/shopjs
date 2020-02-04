@@ -1,14 +1,17 @@
-const express = require('express');
 const path = require('path');
+
+const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
 const csurf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
-const User = require('./models/user');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
 const dotenv = require('dotenv');
+
+const User = require('./models/user');
+
+const app = express();
 
 dotenv.config({
   path: 'config.env'
@@ -19,15 +22,15 @@ const fileStorage = multer.diskStorage({
     cb(null, 'images');
   },
   filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + '-' + file.originalname);
+    cb(null, `${new Date().toISOString()}-${file.originalname}`);
   }
 });
 
 const fileFilter = (req, file, cb) => {
   if (
-    file.mimetype == 'image/png' ||
-    file.mimetype == 'image/jpeg' ||
-    file.mimetype == 'image/jpg'
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpeg' ||
+    file.mimetype === 'image/jpg'
   ) {
     cb(null, true);
   } else {
