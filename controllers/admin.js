@@ -20,8 +20,11 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = async (req, res, next) => {
   const { name, price, description } = req.body;
-  const image = req.file;
+
   const userId = req.user._id;
+  const imageUrl = image.path;
+
+  const errors = validationResult(req);
 
   if (!image) {
     return res.status(422).render('admin/add-product', {
@@ -37,9 +40,6 @@ exports.postAddProduct = async (req, res, next) => {
       validationErrors: []
     });
   }
-
-  const imageUrl = image.path;
-  const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     return res.status(422).render('admin/add-product', {

@@ -12,16 +12,19 @@ router.get('/products', shopController.getProducts);
 
 router.get('/products/:id', shopController.getProduct);
 
-router.get('/cart', isAuth, shopController.getCart);
+router.use(isAuth);
 
-router.post('/cart', isAuth, shopController.postCart);
+router
+  .route('/cart')
+  .get(shopController.getCart)
+  .post(shopController.postCart);
 
-router.post('/cart-delete-item', isAuth, shopController.postCartDeleteProduct);
+router.post('/cart-delete-item', shopController.postCartDeleteProduct);
 
-router.post('/create-order', isAuth, shopController.postOrder);
+router.post('/create-order', shopController.postOrder);
 
-router.get('/orders', isAuth, shopController.getOrders);
+router.get('/orders', shopController.getOrders);
 
-router.get('/orders/:orderId', isAuth, shopController.getReceipt);
+router.get('/orders/:orderId', shopController.getReceipt);
 
 module.exports = router;

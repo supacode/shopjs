@@ -6,19 +6,22 @@ const validator = require('../validators/auth');
 
 const authController = require('../controllers/auth');
 
-router.get('/login', authController.getLogin);
-
-router.post('/login', validator.login, authController.postLogin);
+router
+  .route('/login')
+  .get(authController.getLogin)
+  .post(validator.login, authController.postLogin);
 
 router.post('/logout', authController.postLogout);
 
-router.get('/signup', authController.getSignup);
+router
+  .route('/signup')
+  .get(authController.getSignup)
+  .post(validator.signUp, authController.postSignup);
 
-router.post('/signup', validator.signUp, authController.postSignup);
-
-router.get('/reset-password', authController.getResetPassword);
-
-router.post('/reset-password', authController.postResetPassword);
+router
+  .route('/reset-password')
+  .get(authController.getResetPassword)
+  .post(authController.postResetPassword);
 
 router.get('/reset-password/:token', authController.getNewPassword);
 
