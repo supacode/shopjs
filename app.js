@@ -8,6 +8,7 @@ const multer = require('multer');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 
 const User = require('./models/user');
 
@@ -22,6 +23,8 @@ const app = express();
 dotenv.config({
   path: 'conf.env'
 });
+
+app.use(morgan('dev'));
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
