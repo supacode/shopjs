@@ -21,7 +21,7 @@ const errorController = require('./controllers/error');
 const app = express();
 
 dotenv.config({
-  path: 'config.env'
+  path: 'conf.env'
 });
 
 app.use(morgan('dev'));
