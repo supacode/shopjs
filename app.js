@@ -21,7 +21,7 @@ const errorController = require('./controllers/error');
 const app = express();
 
 dotenv.config({
-  path: 'conf.env'
+  path: 'config.env'
 });
 
 app.use(morgan('dev'));
@@ -112,8 +112,8 @@ app.use((req, res, next) => {
 
 app.get('/500', errorController.get500);
 app.use('/admin', adminRoutes);
-app.use(shopRoutes);
 app.use(authRoutes);
 app.use(errorController.get404);
+app.use(shopRoutes);
 
 module.exports = app;
