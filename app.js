@@ -21,7 +21,7 @@ const errorController = require('./controllers/error');
 const app = express();
 
 dotenv.config({
-  path: 'conf.env'
+  path: 'config.env'
 });
 
 app.use(morgan('dev'));
@@ -31,7 +31,7 @@ const fileStorage = multer.diskStorage({
     cb(null, 'images');
   },
   filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + '-' + file.originalname);
+    cb(null, `${new Date().toISOString()}-${file.originalname}`);
   }
 });
 

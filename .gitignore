@@ -1,4 +1,4 @@
 /node_modules
 images/*
 /data/receipts
-conf.env
+config.env
